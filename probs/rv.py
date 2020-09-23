@@ -179,13 +179,6 @@ class RandomVariable:
     def __rtruediv__(self, other: object) -> RandomVariable:
         return 1 / (self / other)
 
-    # TODO: only for discrete random variables
-    # def __eq__(self, other: object) -> Event:
-    #     return Event(0)
-
-    # def __neq__(self, other: object) -> Event:
-    #     return Event(0)
-
     def __lt__(self, other: object) -> Event:
         if isinstance(other, RandomVariable):
             return Event((self - other).cdf(0))
@@ -207,28 +200,22 @@ class RandomVariable:
         return self > other
 
     def median(self) -> float:
-        return 0
-        # raise NotImplementedError
+        raise NotImplementedError
 
     def mode(self) -> float:
-        return 0
-        # raise NotImplementedError
+        raise NotImplementedError
 
     def expectation(self) -> float:
-        return 0
-        # raise NotImplementedError
+        raise NotImplementedError
 
     def variance(self) -> float:
-        return 0
-        # raise NotImplementedError
+        raise NotImplementedError
 
     def pdf(self, x: float) -> float:
         raise NotImplementedError
 
+    def cdf(self, x: float) -> float:
+        raise NotImplementedError
+
     def integrate(self, fn: Callable[[float], float]) -> Callable[[float], float]:
         return lambda x: float(quad(fn, -np.inf, x, full_output=True)[0])
-
-    def cdf(self, x: float) -> float:
-        del x
-        return 5
-        # raise NotImplementedError
