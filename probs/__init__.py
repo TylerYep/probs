@@ -13,4 +13,4 @@ from .discrete.binomial import Binomial
 from .discrete.geometric import Geometric
 from .discrete.negative_binomial import NegativeBinomial
 from .discrete.poisson import Poisson
-from .rv import E, RandomVariable, Var
+from .rv import E, Event, P, RandomVariable, Var

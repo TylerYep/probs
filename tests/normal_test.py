@@ -1,7 +1,8 @@
-from probs import Normal
+# pylint:disable=misplaced-comparison-constant
+from probs import Event, Normal, P
 
 
-def test_gaussian() -> None:
+def test_normal_pdf() -> None:
     # These were confirmed using `scipy.stats.norm(self.mu, self.sigma).pdf(x)`.
     normal = Normal()
     assert normal.pdf(1) == 0.24197072451914337
@@ -11,3 +12,12 @@ def test_gaussian() -> None:
     assert Normal(5, 3).pdf(1) == 0.05467002489199788
     assert normal.pdf(10 ** -326) == 0.3989422804014327
     assert Normal(mu=234234, sigma=3425).pdf(2523) == 0.0
+
+
+def test_normal_event() -> None:
+    u = Normal()
+
+    assert isinstance(u > 5, Event)
+    assert isinstance(5 < u, Event)
+    assert P(u < 0) == 0.5
+    assert P(u < 14) == 1

@@ -65,4 +65,4 @@ class Normal(RandomVariable):
         )
 
     def cdf(self, x: float) -> float:
-        return 0
+        return super().integrate(self.pdf)(x)

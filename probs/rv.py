@@ -2,10 +2,25 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import no_type_check
+from typing import Callable, no_type_check
 
 import numpy as np
 from scipy.integrate import quad
+
+from probs.floats import ApproxFloat
+
+
+class Probability:
+    @staticmethod
+    def __call__(event: Event) -> float:
+        return event.probability()
+
+    @staticmethod
+    def __getitem__(var: Event) -> float:
+        raise NotImplementedError(
+            "The P[x] syntax is not supported because it adds unnecessary "
+            "redundancy. Please use the P(x) syntax instead."
+        )
 
 
 class Expectation:
@@ -36,6 +51,26 @@ class Variance:
 
 E = Expectation()
 Var = Variance()
+P = Probability()
+
+
+@dataclass
+class Event:
+    # a: Any
+    # b: Any
+    prob: float
+
+    def __and__(self, other: object) -> Event:
+        pass
+
+    # def __rand__(self, other: object) -> Event:
+    #     pass
+
+    # def __or__(self, other: object) -> Event:
+    #     pass
+
+    def probability(self) -> ApproxFloat:
+        return ApproxFloat(self.prob)
 
 
 @dataclass
@@ -144,6 +179,33 @@ class RandomVariable:
     def __rtruediv__(self, other: object) -> RandomVariable:
         return 1 / (self / other)
 
+    # TODO: only for discrete random variables
+    # def __eq__(self, other: object) -> Event:
+    #     return Event(0)
+
+    # def __neq__(self, other: object) -> Event:
+    #     return Event(0)
+
+    def __lt__(self, other: object) -> Event:
+        if isinstance(other, RandomVariable):
+            return Event((self - other).cdf(0))
+        if isinstance(other, (int, float)):
+            return Event(self.cdf(other))
+        raise TypeError
+
+    def __le__(self, other: object) -> Event:
+        return self < other
+
+    def __gt__(self, other: object) -> Event:
+        if isinstance(other, RandomVariable):
+            return Event(1 - (self - other).cdf(0))
+        if isinstance(other, (int, float)):
+            return Event(1 - self.cdf(other))
+        raise TypeError
+
+    def __ge__(self, other: object) -> Event:
+        return self > other
+
     def median(self) -> float:
         return 0
         # raise NotImplementedError
@@ -163,7 +225,10 @@ class RandomVariable:
     def pdf(self, x: float) -> float:
         raise NotImplementedError
 
+    def integrate(self, fn: Callable[[float], float]) -> Callable[[float], float]:
+        return lambda x: float(quad(fn, -np.inf, x, full_output=True)[0])
+
     def cdf(self, x: float) -> float:
         del x
-        return 0
+        return 5
         # raise NotImplementedError
