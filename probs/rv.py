@@ -8,12 +8,34 @@ import numpy as np
 from scipy.integrate import quad
 
 
-def E(var: RandomVariable) -> float:
-    return var.expectation()
+class Expectation:
+    @staticmethod
+    def __call__(var: RandomVariable) -> float:
+        return var.expectation()
+
+    @staticmethod
+    def __getitem__(var: RandomVariable) -> float:
+        raise NotImplementedError(
+            "The E[x] syntax is not supported because it adds unnecessary "
+            "redundancy. Please use the E(x) syntax instead."
+        )
 
 
-def Var(var: RandomVariable) -> float:
-    return var.variance()
+class Variance:
+    @staticmethod
+    def __call__(var: RandomVariable) -> float:
+        return var.variance()
+
+    @staticmethod
+    def __getitem__(var: RandomVariable) -> float:
+        raise NotImplementedError(
+            "The Var[x] syntax is not supported because it adds unnecessary "
+            "redundancy. Please use the Var(x) syntax instead."
+        )
+
+
+E = Expectation()
+Var = Variance()
 
 
 @dataclass
@@ -50,6 +72,7 @@ class RandomVariable:
             )[0]
             result.expectation = lambda: self.expectation() - other_var.expectation()
             result.variance = lambda: self.variance() - other_var.variance()
+            return result
         if isinstance(other, (int, float)):
             return self + (-other)
         raise TypeError
@@ -84,7 +107,7 @@ class RandomVariable:
         raise TypeError
 
     @no_type_check
-    def __div__(self, other: object) -> RandomVariable:
+    def __truediv__(self, other: object) -> RandomVariable:
         if isinstance(other, RandomVariable):
             other_var = other
             result = RandomVariable()
@@ -94,16 +117,11 @@ class RandomVariable:
                 np.inf,
                 full_output=True,
             )[0]
-            #     lambda: self.expectation() * (1 / other_var).expectation()
             result.expectation = lambda: (_ for _ in ()).throw(
-                Exception("Expectation not yet implemented for division.")
+                NotImplementedError("Expectation cannot be implemented for division.")
             )
-            #     lambda: (self.variance() ** 2 + self.expectation() ** 2)
-            #     + ((1 / other_var).variance() ** 2
-            #     + (1 / other_var).expectation() ** 2)
-            #     - (self.expectation() * (1 / other_var).expectation()) ** 2
             result.variance = lambda: (_ for _ in ()).throw(
-                Exception("Variance not yet implemented for division.")
+                NotImplementedError("Variance cannot be implemented for division.")
             )
             return result
         if isinstance(other, (int, float)):
@@ -116,18 +134,16 @@ class RandomVariable:
 
     @no_type_check
     def __rsub__(self, other: object) -> RandomVariable:
-        return self - other
+        return (self - other) * -1
 
     @no_type_check
     def __rmul__(self, other: object) -> RandomVariable:
         return self * other
 
     @no_type_check
-    def __rdiv__(self, other: object) -> RandomVariable:
-        return self / other
+    def __rtruediv__(self, other: object) -> RandomVariable:
+        return 1 / (self / other)
 
-    # TODO: I could literally make all of these properties???
-    # Problem is it won't't raise an error if you tried to use them
     def median(self) -> float:
         return 0
         # raise NotImplementedError

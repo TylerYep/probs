@@ -46,10 +46,10 @@ class Normal(RandomVariable):
             return Normal(self.mu * other, self.sigma * (other ** 2))
         return cast(RandomVariable, super().__mul__(other))
 
-    def __div__(self, other: object) -> RandomVariable:
+    def __truediv__(self, other: object) -> RandomVariable:
         if isinstance(other, (int, float)):
             return self * (1.0 / other)
-        return cast(RandomVariable, super().__div__(other))
+        return cast(RandomVariable, super().__truediv__(other))
 
     def expectation(self) -> float:
         return self.mu
