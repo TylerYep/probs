@@ -2,24 +2,44 @@ from __future__ import annotations
 
 from probs.floats import ApproxFloat
 
+# def default_repr(obj: Any) -> str:
+
 
 class Event:
     def __init__(self, prob: float) -> None:
         self.prob = prob
 
+    def __repr__(self) -> str:
+        field_pairs = [
+            f"{attr}={getattr(self, attr)}"
+            for attr in dir(self)
+            if not callable(getattr(self, attr)) and not attr.startswith("__")
+        ]
+        return f"{self.__class__.__qualname__}({', '.join(field_pairs)})"
+
     # TODO: these are probably incorrect
     def __and__(self, other: object) -> Event:
         if not isinstance(other, Event):
             raise TypeError
+        if self.mutually_exclusive_of(other):
+            return Event(0)
+        if self.independent_of(other):
+            return Event(self.prob * other.prob)
         return Event(self.prob * other.prob)
 
     def __or__(self, other: object) -> Event:
         if not isinstance(other, Event):
             raise TypeError
-        return Event(self.prob + other.prob)
+        return Event(self.prob + other.prob - (self & other).prob)
 
     def probability(self) -> ApproxFloat:
         return ApproxFloat(self.prob)
+
+    def independent_of(self, other: Event) -> bool:
+        return self.prob != other.prob  # TODO
+
+    def mutually_exclusive_of(self, other: Event) -> bool:
+        return self.prob == other.prob  # TODO
 
 
 class RandomVariable:
