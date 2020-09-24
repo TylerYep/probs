@@ -24,7 +24,7 @@ class InverseGamma(RandomVariable):
     beta: float = 1
 
     def __str__(self) -> str:
-        return f"InverseGamma(α={self.alpha}, β={self.beta})"
+        return "InverseGamma(α={}, β={})".format(self.alpha, self.beta)
 
     def pdf(self, x: float) -> float:
         return 0

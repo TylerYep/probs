@@ -21,7 +21,7 @@ class Exponential(RandomVariable):
     lambda_: float = 1
 
     def __str__(self) -> str:
-        return f"Exponential(λ={self.lambda_})"
+        return "Exponential(λ={})".format(self.lambda_)
 
     def pdf(self, x: float) -> float:
         return 0

@@ -25,7 +25,7 @@ class Beta(RandomVariable):
     beta: float = 1
 
     def __str__(self) -> str:
-        return f"Beta(α={self.alpha}, β={self.beta})"
+        return "Beta(α={}, β={})".format(self.alpha, self.beta)
 
     def pdf(self, x: float) -> float:
         return 0

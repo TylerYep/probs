@@ -20,7 +20,7 @@ class Lomax(RandomVariable):
     alpha: float = 1
 
     def __str__(self) -> str:
-        return f"Lomax(λ={self.lambda_}, α={self.alpha})"
+        return "Lomax(λ={}, α={})".format(self.lambda_, self.alpha)
 
     def pdf(self, x: float) -> float:
         return 0
