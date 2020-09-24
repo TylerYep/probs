@@ -13,7 +13,7 @@ class ContinuousRV(RandomVariable):
     def __add__(self, other: object) -> ContinuousRV:
         if isinstance(other, ContinuousRV):
             other_var = other
-            result = ContinuousRV()
+            result = type(self)()
             result.pdf = lambda z: quad(
                 lambda x: self.pdf(x) + other_var.pdf(z - x), -np.inf, np.inf
             )[0]
@@ -27,7 +27,7 @@ class ContinuousRV(RandomVariable):
     def __sub__(self, other: object) -> ContinuousRV:
         if isinstance(other, ContinuousRV):
             other_var = other
-            result = ContinuousRV()
+            result = type(self)()
             result.pdf = lambda z: quad(
                 lambda x: self.pdf(x) + other_var.pdf(z + x), -np.inf, np.inf
             )[0]
@@ -40,7 +40,7 @@ class ContinuousRV(RandomVariable):
     def __mul__(self, other: object) -> ContinuousRV:
         if isinstance(other, ContinuousRV):
             other_var = other
-            result = ContinuousRV()
+            result = type(self)()
             result.pdf = lambda z: quad(
                 lambda x: (self.pdf(x) + other_var.pdf(z / x)) / abs(x),
                 -np.inf,
@@ -61,7 +61,7 @@ class ContinuousRV(RandomVariable):
     def __truediv__(self, other: object) -> ContinuousRV:
         if isinstance(other, ContinuousRV):
             other_var = other
-            result = ContinuousRV()
+            result = type(self)()
             result.pdf = lambda z: quad(
                 lambda x: (self.pdf(x) + other_var.pdf(z * x)) / abs(x),
                 -np.inf,
@@ -76,3 +76,6 @@ class ContinuousRV(RandomVariable):
             )
             return result
         return cast(ContinuousRV, super().__truediv__(other))
+
+    def cdf(self, x: float) -> float:
+        return float(quad(self.pdf, -np.inf, x, full_output=True)[0])

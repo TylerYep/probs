@@ -21,6 +21,7 @@ def test_uniform_expectation() -> None:
     assert E(u + v) == 1.0
     assert E(u - v) == 0
     assert isinstance(u / v, RandomVariable)
+    assert isinstance(u - 1, Uniform)
     with pytest.raises(NotImplementedError):
         assert E(u / v)
 

@@ -1,8 +1,9 @@
-from probs.rv import RandomVariable
+from probs.discrete.rv import DiscreteRV
 
 
-class Bernoulli(RandomVariable):
+class Bernoulli(DiscreteRV):
     def __init__(self, p: float = 1) -> None:
+        super().__init__()
         if not 0 <= p <= 1:
             raise ValueError("p must be between 0 and 1.")
         self.p = p

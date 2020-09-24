@@ -58,6 +58,3 @@ class Beta(RandomVariable):
         return ((x ** (self.alpha - 1)) * ((1 - x) ** (self.beta - 1))) / B(
             self.alpha, self.beta
         )
-
-    def cdf(self, x: float) -> float:
-        return 0  # TODO

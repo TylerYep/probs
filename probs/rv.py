@@ -1,10 +1,5 @@
 from __future__ import annotations
 
-from typing import Callable
-
-import numpy as np
-from scipy.integrate import quad
-
 from probs.floats import ApproxFloat
 
 
@@ -12,6 +7,7 @@ class Event:
     def __init__(self, prob: float) -> None:
         self.prob = prob
 
+    # TODO: implement combining events together
     def __and__(self, other: object) -> Event:
         raise NotImplementedError
 
@@ -29,7 +25,7 @@ class RandomVariable:
     def __add__(self, other: object) -> RandomVariable:
         if isinstance(other, (int, float)):
             other_float = other
-            result = RandomVariable()
+            result = type(self)()
             result.pdf = lambda z: self.pdf(z + other_float)  # type: ignore
             result.cdf = lambda z: self.cdf(z + other_float)  # type: ignore
             result.expectation = lambda: self.expectation() + other_float  # type: ignore # noqa
@@ -45,7 +41,7 @@ class RandomVariable:
     def __mul__(self, other: object) -> RandomVariable:
         if isinstance(other, (int, float)):
             other_float = other
-            result = RandomVariable()
+            result = type(self)()
             result.pdf = lambda z: self.pdf(z * other_float)  # type: ignore
             result.cdf = lambda z: self.cdf(z * other_float)  # type: ignore
             result.expectation = lambda: self.expectation() * other_float  # type: ignore # noqa
@@ -89,10 +85,6 @@ class RandomVariable:
 
     def __ge__(self, other: object) -> Event:
         return self > other
-
-    @staticmethod
-    def integrate(fn: Callable[[float], float]) -> Callable[[float], float]:
-        return lambda x: float(quad(fn, -np.inf, x, full_output=True)[0])
 
     def median(self) -> float:
         raise NotImplementedError

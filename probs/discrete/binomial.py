@@ -1,9 +1,9 @@
 import math
 
-from probs.rv import RandomVariable
+from probs.discrete.rv import DiscreteRV
 
 
-class Binomial(RandomVariable):
+class Binomial(DiscreteRV):
     """
     The binomial distribution with parameters n and p is the discrete
     probability distribution of the number of successes in a sequence of n
@@ -18,6 +18,7 @@ class Binomial(RandomVariable):
     """
 
     def __init__(self, n: int = 0, p: float = 1) -> None:
+        super().__init__()
         if not 0 <= p <= 1:
             raise ValueError("p must be between 0 and 1.")
         self.n = n
@@ -41,6 +42,3 @@ class Binomial(RandomVariable):
 
         k = int(x)
         return nCr(self.n, k) * (self.p ** k) * ((1 - self.p) ** (self.n - k))
-
-    def cdf(self, x: float) -> float:
-        return 0  # TODO
