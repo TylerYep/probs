@@ -23,6 +23,14 @@ class Event:
 
 
 class RandomVariable:
+    def __repr__(self) -> str:
+        field_pairs = [
+            f"{attr}={getattr(self, attr)}"
+            for attr in dir(self)
+            if not callable(getattr(self, attr)) and not attr.startswith("__")
+        ]
+        return f"{self.__class__.__qualname__}({', '.join(field_pairs)})"
+
     def __add__(self, other: object) -> RandomVariable:
         if isinstance(other, (int, float)):
             other_float = other
@@ -61,6 +69,26 @@ class RandomVariable:
             return self * (1.0 / other)
         raise TypeError
 
+    def __pow__(self, other: object) -> RandomVariable:
+        if isinstance(other, (int, float)):
+            other_float = other
+            result = type(self)()
+            result.pdf = lambda z: self.pdf(z ** other_float)  # type: ignore
+            result.cdf = lambda z: self.cdf(z ** other_float)  # type: ignore
+            result.expectation = lambda: (_ for _ in ()).throw(  # type: ignore
+                # lambda: exp(log(self) * other_float).expectation()
+                NotImplementedError(  # type: ignore
+                    "Expectation cannot be implemented for division."
+                )
+            )
+            result.variance = lambda: (_ for _ in ()).throw(  # type: ignore
+                # lambda: exp(log(self) * other_float).variance()
+                NotImplementedError(  # type: ignore
+                    "Variance cannot be implemented for division."
+                )
+            )
+        raise TypeError
+
     def __radd__(self, other: object) -> RandomVariable:
         return self + other
 
@@ -72,6 +100,9 @@ class RandomVariable:
 
     def __rtruediv__(self, other: object) -> RandomVariable:
         return 1 / (self / other)
+
+    def __rpow__(self, other: object) -> RandomVariable:
+        return self ** other
 
     def __lt__(self, other: object) -> Event:
         if isinstance(other, RandomVariable):

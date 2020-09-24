@@ -23,7 +23,7 @@ class Gamma(RandomVariable):
     beta: float = 1
 
     def __str__(self) -> str:
-        return "Gamma(α={}, β={})".format(self.alpha, self.beta)
+        return f"Gamma(α={self.alpha}, β={self.beta})"
 
     def pdf(self, x: float) -> float:
         return 0

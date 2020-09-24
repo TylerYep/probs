@@ -16,7 +16,7 @@ class Laplace(RandomVariable):
     b: float = 1
 
     def __str__(self) -> str:
-        return "Laplace(μ={}, b={})".format(self.mu, self.b)
+        return f"Laplace(μ={self.mu}, b={self.b})"
 
     def pdf(self, x: float) -> float:
         return 0

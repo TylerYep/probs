@@ -6,8 +6,8 @@ class Uniform(ContinuousRV):
         self.a = a
         self.b = b
 
-    def __str__(self) -> str:
-        return "Uniform(a={}, b={})".format(self.a, self.b)
+    def __repr__(self) -> str:
+        return f"Uniform(a={self.a}, b={self.b})"
 
     def median(self) -> float:
         return 0.5 * (self.a + self.b)

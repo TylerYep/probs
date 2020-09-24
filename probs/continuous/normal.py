@@ -21,8 +21,8 @@ class Normal(ContinuousRV):
         self.sigma = sigma
         self.sigma_sq = self.sigma ** 2
 
-    def __str__(self) -> str:
-        return "Normal(μ={}, σ²={})".format(self.mu, self.sigma_sq)
+    def __repr__(self) -> str:
+        return f"Normal(μ={self.mu}, σ²={self.sigma_sq})"
 
     def __add__(self, other: object) -> RandomVariable:
         if isinstance(other, Normal):

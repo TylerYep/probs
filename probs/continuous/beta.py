@@ -24,8 +24,8 @@ class Beta(RandomVariable):
         self.alpha = alpha
         self.beta = beta
 
-    def __str__(self) -> str:
-        return "Beta(α={}, β={})".format(self.alpha, self.beta)
+    def __repr__(self) -> str:
+        return f"Beta(α={self.alpha}, β={self.beta})"
 
     def median(self) -> float:
         return (self.alpha - (1 / 3)) / (self.alpha + self.beta - 2 / 3)

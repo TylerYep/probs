@@ -32,7 +32,8 @@ class ContinuousRV(RandomVariable):
                 lambda x: self.pdf(x) + other_var.pdf(z + x), -np.inf, np.inf
             )[0]
             result.expectation = lambda: self.expectation() - other_var.expectation()
-            result.variance = lambda: self.variance() - other_var.variance()
+            # Variances are added regardless of addition/subtraction.
+            result.variance = lambda: self.variance() + other_var.variance()
             return result
         return cast(ContinuousRV, super().__sub__(other))
 
