@@ -7,15 +7,16 @@ class Event:
     def __init__(self, prob: float) -> None:
         self.prob = prob
 
-    # TODO: implement combining events together
+    # TODO: these are probably incorrect
     def __and__(self, other: object) -> Event:
-        raise NotImplementedError
-
-    def __rand__(self, other: object) -> Event:
-        raise NotImplementedError
+        if not isinstance(other, Event):
+            raise TypeError
+        return Event(self.prob * other.prob)
 
     def __or__(self, other: object) -> Event:
-        raise NotImplementedError
+        if not isinstance(other, Event):
+            raise TypeError
+        return Event(self.prob + other.prob)
 
     def probability(self) -> ApproxFloat:
         return ApproxFloat(self.prob)
@@ -28,7 +29,9 @@ class RandomVariable:
             result = type(self)()
             result.pdf = lambda z: self.pdf(z + other_float)  # type: ignore
             result.cdf = lambda z: self.cdf(z + other_float)  # type: ignore
-            result.expectation = lambda: self.expectation() + other_float  # type: ignore # noqa
+            result.expectation = (  # type: ignore
+                lambda: self.expectation() + other_float
+            )
             result.variance = self.variance  # type: ignore
             return result
         raise TypeError
@@ -44,8 +47,12 @@ class RandomVariable:
             result = type(self)()
             result.pdf = lambda z: self.pdf(z * other_float)  # type: ignore
             result.cdf = lambda z: self.cdf(z * other_float)  # type: ignore
-            result.expectation = lambda: self.expectation() * other_float  # type: ignore # noqa
-            result.variance = lambda: self.variance() * (other_float ** 2)  # type: ignore # noqa
+            result.expectation = (  # type: ignore
+                lambda: self.expectation() * other_float
+            )
+            result.variance = lambda: self.variance() * (  # type: ignore
+                other_float ** 2
+            )
             return result
         raise TypeError
 

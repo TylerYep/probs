@@ -1,4 +1,5 @@
-# pylint:disable=misplaced-comparison-constant
+import math
+
 from probs import Event, Normal, P
 
 
@@ -21,3 +22,23 @@ def test_normal_event() -> None:
     assert isinstance(5 < u, Event)
     assert P(u < 0) == 0.5
     assert P(u < 14) == 1
+
+
+def test_normal_algebra() -> None:
+    a = Normal(1, 1) + Normal(5, 6)
+    b = Normal(1, 2) - Normal(3, 4)
+    c = Normal(1, 2) * Normal(3, 4)
+    d = Normal() + 5
+    e = 13 * Normal()
+
+    assert a.expectation() == 6
+    assert b.expectation() == -2
+    assert c.expectation() == 3
+    assert d.expectation() == 5
+    assert e.expectation() == 0
+
+    assert math.isclose(a.variance(), 37)
+    assert math.isclose(b.variance(), 20)
+    assert math.isclose(c.variance(), 273)
+    assert math.isclose(d.variance(), 1)
+    assert math.isclose(e.variance(), 28561)

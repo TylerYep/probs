@@ -15,9 +15,7 @@ class DiscreteRV(RandomVariable):
         if isinstance(other, DiscreteRV):
             other_var = other
             result = type(self)()
-            # result.pdf = lambda z: quad(
-            #     lambda x: self.pdf(x) + other_var.pdf(z - x), -np.inf, np.inf
-            # )[0]
+            # result.pdf = lambda z:
             result.expectation = lambda: self.expectation() + other_var.expectation()
             # # Assumes Independence of X and Y, else add (+ 2 * Cov(X, Y)) term
             result.variance = lambda: self.variance() + other_var.variance()
@@ -29,9 +27,7 @@ class DiscreteRV(RandomVariable):
         if isinstance(other, DiscreteRV):
             other_var = other
             result = type(self)()
-            # result.pdf = lambda z: quad(
-            #     lambda x: self.pdf(x) + other_var.pdf(z + x), -np.inf, np.inf
-            # )[0]
+            # result.pdf = lambda z:
             result.expectation = lambda: self.expectation() - other_var.expectation()
             result.variance = lambda: self.variance() - other_var.variance()
             return result
@@ -42,12 +38,7 @@ class DiscreteRV(RandomVariable):
         if isinstance(other, DiscreteRV):
             other_var = other
             result = type(self)()
-            # result.pdf = lambda z: quad(
-            #     lambda x: (self.pdf(x) + other_var.pdf(z / x)) / abs(x),
-            #     -np.inf,
-            #     np.inf,
-            #     full_output=True,
-            # )[0]
+            # result.pdf = lambda z:
             # Assumes Independence of X and Y
             result.expectation = lambda: self.expectation() * other_var.expectation()
             result.variance = (
@@ -63,12 +54,7 @@ class DiscreteRV(RandomVariable):
         if isinstance(other, DiscreteRV):
             # other_var = other
             result = type(self)()
-            # result.pdf = lambda z: quad(
-            #     lambda x: (self.pdf(x) + other_var.pdf(z * x)) / abs(x),
-            #     -np.inf,
-            #     np.inf,
-            #     full_output=True,
-            # )[0]
+            # result.pdf = lambda z:
             result.expectation = lambda: (_ for _ in ()).throw(
                 NotImplementedError("Expectation cannot be implemented for division.")
             )
