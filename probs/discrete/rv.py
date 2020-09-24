@@ -1,4 +1,3 @@
-# pylint: disable=not-callable, method-hidden, no-self-use
 from __future__ import annotations
 
 from typing import cast, no_type_check

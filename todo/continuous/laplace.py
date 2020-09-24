@@ -1,9 +1,6 @@
-from dataclasses import dataclass
-
 from probs.rv import RandomVariable
 
 
-@dataclass
 class Laplace(RandomVariable):
     """
     The Laplace distribution is also sometimes called the double exponential

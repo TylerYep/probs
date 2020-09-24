@@ -5,7 +5,7 @@ with open("README.md") as f:
 
 setuptools.setup(
     name="probs",
-    version="0.0.1",
+    version="0.0.2",
     author="Tyler Yep",
     author_email="tyep@cs.stanford.edu",
     description="Probability library for Python",
@@ -18,5 +18,5 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires=">=3.7",
+    python_requires=">=3.5",
 )

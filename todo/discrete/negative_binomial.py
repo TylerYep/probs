@@ -1,9 +1,6 @@
-from dataclasses import dataclass
-
 from probs.rv import RandomVariable
 
 
-@dataclass
 class NegativeBinomial(RandomVariable):
     """
     The negative binomial distribution is a discrete probability distribution

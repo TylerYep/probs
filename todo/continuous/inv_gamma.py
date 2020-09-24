@@ -1,9 +1,6 @@
-from dataclasses import dataclass
-
 from probs.rv import RandomVariable
 
 
-@dataclass
 class InverseGamma(RandomVariable):
     """
     The inverse gamma distribution is a two-parameter family of continuous

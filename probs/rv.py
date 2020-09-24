@@ -1,4 +1,3 @@
-# pylint: disable=not-callable, method-hidden, no-self-use
 from __future__ import annotations
 
 from typing import Callable
@@ -91,6 +90,10 @@ class RandomVariable:
     def __ge__(self, other: object) -> Event:
         return self > other
 
+    @staticmethod
+    def integrate(fn: Callable[[float], float]) -> Callable[[float], float]:
+        return lambda x: float(quad(fn, -np.inf, x, full_output=True)[0])
+
     def median(self) -> float:
         raise NotImplementedError
 
@@ -108,6 +111,3 @@ class RandomVariable:
 
     def cdf(self, x: float) -> float:
         raise NotImplementedError
-
-    def integrate(self, fn: Callable[[float], float]) -> Callable[[float], float]:
-        return lambda x: float(quad(fn, -np.inf, x, full_output=True)[0])

@@ -1,9 +1,6 @@
-from dataclasses import dataclass
-
 from probs.rv import RandomVariable
 
 
-@dataclass
 class BetaBinomial(RandomVariable):
     """
     The beta-binomial distribution is a family of discrete probability

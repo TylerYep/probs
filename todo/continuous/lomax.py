@@ -1,9 +1,6 @@
-from dataclasses import dataclass
-
 from probs.rv import RandomVariable
 
 
-@dataclass
 class Lomax(RandomVariable):
     """
     The Lomax distribution, conditionally also called the Pareto Type II

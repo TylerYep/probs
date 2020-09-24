@@ -10,6 +10,9 @@ class Normal(ContinuousRV):
     The normal distribution is a type of continuous probability distribution
     for a real-valued random variable.
 
+    The Normal distribution has some unique properties, e.g. combining
+    Normal distributions produce Normal distributions.
+
     https://en.wikipedia.org/wiki/Normal_distribution
     """
 

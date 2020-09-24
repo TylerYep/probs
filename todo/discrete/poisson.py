@@ -1,9 +1,6 @@
-from dataclasses import dataclass
-
 from probs.rv import RandomVariable
 
 
-@dataclass
 class Poisson(RandomVariable):
     """
     The Poisson distribution is a discrete probability distribution that

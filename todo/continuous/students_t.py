@@ -1,9 +1,6 @@
-from dataclasses import dataclass
-
 from probs.rv import RandomVariable
 
 
-@dataclass
 class StudentsT(RandomVariable):
     """
     Student's t-distribution (or simply the t-distribution) is any member of a

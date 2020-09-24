@@ -9,10 +9,11 @@ from .continuous.rv import ContinuousRV
 
 # from .continuous.students_t import StudentsT
 from .continuous.uniform import Uniform
+from .discrete.bernoulli import Bernoulli
 
-# from .discrete.bernoulli import Bernoulli
 # from .discrete.beta_binomial import BetaBinomial
-# from .discrete.binomial import Binomial
+from .discrete.binomial import Binomial
+
 # from .discrete.geometric import Geometric
 # from .discrete.negative_binomial import NegativeBinomial
 # from .discrete.poisson import Poisson

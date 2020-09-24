@@ -1,7 +1,6 @@
-# pylint: disable=not-callable, method-hidden, no-self-use
 from __future__ import annotations
 
-from typing import Callable, cast, no_type_check
+from typing import cast, no_type_check
 
 import numpy as np
 from scipy.integrate import quad
@@ -77,6 +76,3 @@ class ContinuousRV(RandomVariable):
             )
             return result
         return cast(ContinuousRV, super().__truediv__(other))
-
-    def integrate(self, fn: Callable[[float], float]) -> Callable[[float], float]:
-        return lambda x: float(quad(fn, -np.inf, x, full_output=True)[0])

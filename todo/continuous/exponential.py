@@ -1,9 +1,6 @@
-from dataclasses import dataclass
-
 from probs.rv import RandomVariable
 
 
-@dataclass
 class Exponential(RandomVariable):
     """
     The exponential distribution is the probability distribution of the time
