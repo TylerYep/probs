@@ -1,7 +1,11 @@
-from probs.rv import RandomVariable
+import math
+from dataclasses import dataclass
+
+from probs.discrete.rv import DiscreteRV
 
 
-class Poisson(RandomVariable):
+@dataclass
+class Poisson(DiscreteRV):
     """
     The Poisson distribution is a discrete probability distribution that
     expresses the probability of a given number of events occurring in a fixed
@@ -17,8 +21,18 @@ class Poisson(RandomVariable):
 
     lambda_: float = 0
 
-    def pdf(self, x: float) -> float:
-        return 0
+    def median(self) -> float:
+        raise NotImplementedError
 
-    def cdf(self, x: float) -> float:
-        return 0
+    def mode(self) -> float:
+        return math.floor(self.lambda_)
+
+    def expectation(self) -> float:
+        return self.lambda_
+
+    def variance(self) -> float:
+        return self.lambda_
+
+    def pdf(self, x: float) -> float:
+        k = int(x)
+        return self.lambda_ ** k * math.exp(-self.lambda_) / math.factorial(k)

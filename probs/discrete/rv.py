@@ -79,7 +79,15 @@ class DiscreteRV(RandomVariable):
         raise TypeError
 
     def pdf(self, x: float) -> float:
+        """
+        General implementation of the pdf function, which may be overridden
+        in child classes to provide a clearer/more efficient implementation.
+        """
         return self.pmf[x]
 
     def cdf(self, x: float) -> float:
+        """
+        General implementation of the cdf function, which may be overridden
+        in child classes to provide a clearer/more efficient implementation.
+        """
         return sum(self.pdf(item) for item in self.item_list if item < x)

@@ -1,7 +1,10 @@
-from probs.rv import RandomVariable
+from dataclasses import dataclass
+
+from probs.continuous.rv import ContinuousRV
 
 
-class StudentsT(RandomVariable):
+@dataclass
+class StudentsT(ContinuousRV):
     """
     Student's t-distribution (or simply the t-distribution) is any member of a
     family of continuous probability distributions that arises when estimating
@@ -13,8 +16,20 @@ class StudentsT(RandomVariable):
     :param nu: Number of degrees of freedom.
     """
 
+    def median(self) -> float:
+        raise NotImplementedError
+
+    def mode(self) -> float:
+        raise NotImplementedError
+
+    def expectation(self) -> float:
+        raise NotImplementedError
+
+    def variance(self) -> float:
+        raise NotImplementedError
+
     def pdf(self, x: float) -> float:
-        return 0
+        raise NotImplementedError
 
     def cdf(self, x: float) -> float:
-        return 0
+        raise NotImplementedError

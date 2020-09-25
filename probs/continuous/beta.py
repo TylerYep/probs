@@ -1,7 +1,12 @@
-from probs.rv import RandomVariable
+from dataclasses import dataclass
+
+from scipy.stats import beta
+
+from probs.continuous.rv import ContinuousRV
 
 
-class Beta(RandomVariable):
+@dataclass
+class Beta(ContinuousRV):
     """
     The beta distribution is a family of continuous probability distributions
     defined on the interval [0, 1] parameterized by two positive shape
@@ -18,13 +23,14 @@ class Beta(RandomVariable):
     :param beta: Second shape parameter: Interpretation can be # failures.
     """
 
-    def __init__(self, alpha: float = 1, beta: float = 1) -> None:
-        if alpha < 0 or beta < 0:
-            raise ValueError("α and β must be greater than 0.")
-        self.alpha = alpha
-        self.beta = beta
+    alpha: float = 1
+    beta: float = 1
 
-    def __repr__(self) -> str:
+    def __post_init__(self) -> None:
+        if self.alpha < 0 or self.beta < 0:
+            raise ValueError("α and β must be greater than 0.")
+
+    def __str__(self) -> str:
         return f"Beta(α={self.alpha}, β={self.beta})"
 
     def median(self) -> float:
@@ -52,9 +58,4 @@ class Beta(RandomVariable):
         )
 
     def pdf(self, x: float) -> float:
-        def B(alpha: float, beta: float) -> float:
-            return alpha + beta  # TODO this is incomplete
-
-        return ((x ** (self.alpha - 1)) * ((1 - x) ** (self.beta - 1))) / B(
-            self.alpha, self.beta
-        )
+        return float(beta.pdf(x, self.alpha, self.beta))

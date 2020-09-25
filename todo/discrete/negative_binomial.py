@@ -1,7 +1,10 @@
-from probs.rv import RandomVariable
+from dataclasses import dataclass
+
+from probs.discrete.rv import DiscreteRV
 
 
-class NegativeBinomial(RandomVariable):
+@dataclass
+class NegativeBinomial(DiscreteRV):
     """
     The negative binomial distribution is a discrete probability distribution
     that models the number of failures k in a sequence of independent and
@@ -22,8 +25,20 @@ class NegativeBinomial(RandomVariable):
     r: float = 0
     p: float = 1
 
+    def median(self) -> float:
+        raise NotImplementedError
+
+    def mode(self) -> float:
+        raise NotImplementedError
+
+    def expectation(self) -> float:
+        raise NotImplementedError
+
+    def variance(self) -> float:
+        raise NotImplementedError
+
     def pdf(self, x: float) -> float:
-        return 0
+        raise NotImplementedError
 
     def cdf(self, x: float) -> float:
-        return 0
+        raise NotImplementedError

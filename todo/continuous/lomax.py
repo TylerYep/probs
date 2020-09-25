@@ -1,7 +1,10 @@
-from probs.rv import RandomVariable
+from dataclasses import dataclass
+
+from probs.continuous.rv import ContinuousRV
 
 
-class Lomax(RandomVariable):
+@dataclass
+class Lomax(ContinuousRV):
     """
     The Lomax distribution, conditionally also called the Pareto Type II
     distribution, is a heavy-tail probability distribution used in business,
@@ -19,8 +22,20 @@ class Lomax(RandomVariable):
     def __str__(self) -> str:
         return f"Lomax(λ={self.lambda_}, α={self.alpha})"
 
+    def median(self) -> float:
+        raise NotImplementedError
+
+    def mode(self) -> float:
+        raise NotImplementedError
+
+    def expectation(self) -> float:
+        raise NotImplementedError
+
+    def variance(self) -> float:
+        raise NotImplementedError
+
     def pdf(self, x: float) -> float:
-        return 0
+        raise NotImplementedError
 
     def cdf(self, x: float) -> float:
-        return 0
+        raise NotImplementedError

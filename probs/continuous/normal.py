@@ -1,10 +1,12 @@
 import math
+from dataclasses import dataclass
 from typing import cast
 
 from probs.continuous.rv import ContinuousRV
 from probs.rv import RandomVariable
 
 
+@dataclass
 class Normal(ContinuousRV):
     """
     The normal distribution is a type of continuous probability distribution
@@ -16,12 +18,13 @@ class Normal(ContinuousRV):
     https://en.wikipedia.org/wiki/Normal_distribution
     """
 
-    def __init__(self, mu: float = 0, sigma: float = 1) -> None:
-        self.mu = mu
-        self.sigma = sigma
+    mu: float = 0
+    sigma: float = 1
+
+    def __post_init__(self) -> None:
         self.sigma_sq = self.sigma ** 2
 
-    def __repr__(self) -> str:
+    def __str__(self) -> str:
         return f"Normal(μ={self.mu}, σ²={self.sigma_sq})"
 
     def __add__(self, other: object) -> RandomVariable:
@@ -64,3 +67,6 @@ class Normal(ContinuousRV):
             / math.sqrt(2 * math.pi * self.sigma_sq)
             * math.exp(-((x - self.mu) ** 2) / (2 * self.sigma_sq))
         )
+
+    def cdf(self, x: float) -> float:
+        return (1.0 + math.erf(x / math.sqrt(2.0))) / 2.0

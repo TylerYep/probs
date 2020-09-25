@@ -79,4 +79,8 @@ class ContinuousRV(RandomVariable):
         return cast(ContinuousRV, super().__truediv__(other))
 
     def cdf(self, x: float) -> float:
+        """
+        General implementation of the cdf function, which may be overridden
+        in child classes to provide a clearer/more efficient implementation.
+        """
         return float(quad(self.pdf, -np.inf, x, full_output=True)[0])

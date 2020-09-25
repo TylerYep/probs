@@ -1,7 +1,10 @@
-from probs.rv import RandomVariable
+from dataclasses import dataclass
+
+from probs.continuous.rv import ContinuousRV
 
 
-class Laplace(RandomVariable):
+@dataclass
+class Laplace(ContinuousRV):
     """
     The Laplace distribution is also sometimes called the double exponential
     distribution, because it can be thought of as two exponential distributions
@@ -18,8 +21,20 @@ class Laplace(RandomVariable):
     def __str__(self) -> str:
         return f"Laplace(μ={self.mu}, b={self.b})"
 
+    def median(self) -> float:
+        raise NotImplementedError
+
+    def mode(self) -> float:
+        raise NotImplementedError
+
+    def expectation(self) -> float:
+        raise NotImplementedError
+
+    def variance(self) -> float:
+        raise NotImplementedError
+
     def pdf(self, x: float) -> float:
-        return 0
+        raise NotImplementedError
 
     def cdf(self, x: float) -> float:
-        return 0
+        raise NotImplementedError

@@ -1,7 +1,10 @@
-from probs.rv import RandomVariable
+from dataclasses import dataclass
+
+from probs.discrete.rv import DiscreteRV
 
 
-class BetaBinomial(RandomVariable):
+@dataclass
+class BetaBinomial(DiscreteRV):
     """
     The beta-binomial distribution is a family of discrete probability
     distributions on a finite support of non-negative integers arising when the
@@ -31,8 +34,20 @@ class BetaBinomial(RandomVariable):
     alpha: float = 1
     beta: float = 1
 
+    def median(self) -> float:
+        raise NotImplementedError
+
+    def mode(self) -> float:
+        raise NotImplementedError
+
+    def expectation(self) -> float:
+        raise NotImplementedError
+
+    def variance(self) -> float:
+        raise NotImplementedError
+
     def pdf(self, x: float) -> float:
-        return 0
+        raise NotImplementedError
 
     def cdf(self, x: float) -> float:
-        return 0
+        raise NotImplementedError

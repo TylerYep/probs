@@ -1,6 +1,9 @@
+from dataclasses import dataclass
+
 from probs.discrete.rv import DiscreteRV
 
 
+@dataclass
 class DiceRoll(DiscreteRV):
     def __init__(self, sides: int = 6) -> None:
         super().__init__()

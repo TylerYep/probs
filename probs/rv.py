@@ -90,6 +90,7 @@ class RandomVariable:
         raise TypeError
 
     def __pow__(self, other: object) -> RandomVariable:
+        # https://en.wikipedia.org/wiki/Algebra_of_random_variables
         if isinstance(other, (int, float)):
             other_float = other
             result = type(self)()

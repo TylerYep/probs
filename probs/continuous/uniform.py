@@ -1,13 +1,12 @@
+from dataclasses import dataclass
+
 from probs.continuous.rv import ContinuousRV
 
 
+@dataclass
 class Uniform(ContinuousRV):
-    def __init__(self, a: float = 0, b: float = 1) -> None:
-        self.a = a
-        self.b = b
-
-    def __repr__(self) -> str:
-        return f"Uniform(a={self.a}, b={self.b})"
+    a: float = 0
+    b: float = 1
 
     def median(self) -> float:
         return 0.5 * (self.a + self.b)
