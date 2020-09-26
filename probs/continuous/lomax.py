@@ -1,3 +1,4 @@
+import math
 from dataclasses import dataclass
 
 from probs.continuous.rv import ContinuousRV
@@ -19,23 +20,35 @@ class Lomax(ContinuousRV):
     lambda_: float = 1
     alpha: float = 1
 
+    def __post_init__(self) -> None:
+        if self.lambda_ <= 0 or self.alpha <= 0:
+            raise ValueError("λ and α must be greater than 0.")
+
     def __str__(self) -> str:
         return f"Lomax(λ={self.lambda_}, α={self.alpha})"
 
     def median(self) -> float:
-        raise NotImplementedError
+        return self.lambda_ * (2 ** (1 / self.alpha) - 1)
 
     def mode(self) -> float:
-        raise NotImplementedError
+        return 0
 
     def expectation(self) -> float:
-        raise NotImplementedError
+        if self.alpha <= 1:
+            raise RuntimeError("Undefined for α > 1")
+        return self.lambda_ / (self.alpha - 1)
 
     def variance(self) -> float:
-        raise NotImplementedError
+        if self.alpha > 2:
+            return (self.alpha * self.lambda_ ** 2) / (
+                (self.alpha - 1) ** 2 * (self.alpha - 2)
+            )
+        if self.alpha > 1:
+            return math.inf
+        raise RuntimeError("Undefined for α <= 1")
 
     def pdf(self, x: float) -> float:
-        raise NotImplementedError
+        return (self.alpha / self.lambda_) * (1 + x / self.lambda_) ** -(self.alpha + 1)
 
     def cdf(self, x: float) -> float:
-        raise NotImplementedError
+        return 1 - (1 + x / self.lambda_) ** -self.alpha

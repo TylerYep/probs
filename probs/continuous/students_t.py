@@ -1,4 +1,7 @@
+import math
 from dataclasses import dataclass
+
+from scipy.stats import t
 
 from probs.continuous.rv import ContinuousRV
 
@@ -16,20 +19,32 @@ class StudentsT(ContinuousRV):
     :param nu: Number of degrees of freedom.
     """
 
+    nu: float
+
+    def __post_init__(self) -> None:
+        if self.nu <= 0:
+            raise ValueError("nu must be greater than 0.")
+
     def median(self) -> float:
-        raise NotImplementedError
+        return 0
 
     def mode(self) -> float:
-        raise NotImplementedError
+        return 0
 
     def expectation(self) -> float:
-        raise NotImplementedError
+        if self.nu <= 1:
+            raise RuntimeError("Undefined for nu <= 1")
+        return 0
 
     def variance(self) -> float:
-        raise NotImplementedError
+        if self.nu > 2:
+            return self.nu / (self.nu - 2)
+        if 1 < self.nu <= 2:
+            return math.inf
+        raise RuntimeError("Undefined for nu <= 1")
 
     def pdf(self, x: float) -> float:
-        raise NotImplementedError
+        return float(t.pdf(x, self.nu))
 
     def cdf(self, x: float) -> float:
-        raise NotImplementedError
+        return float(t.cdf(x, self.nu))

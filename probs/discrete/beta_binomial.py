@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from scipy.stats import betabinom
+
 from probs.discrete.rv import DiscreteRV
 
 
@@ -34,6 +36,10 @@ class BetaBinomial(DiscreteRV):
     alpha: float = 1
     beta: float = 1
 
+    def __post_init__(self) -> None:
+        if self.alpha < 0 or self.beta < 0:
+            raise ValueError("α and β must be greater than 0.")
+
     def median(self) -> float:
         raise NotImplementedError
 
@@ -41,13 +47,21 @@ class BetaBinomial(DiscreteRV):
         raise NotImplementedError
 
     def expectation(self) -> float:
-        raise NotImplementedError
+        return self.n * self.alpha / (self.alpha + self.beta)
 
     def variance(self) -> float:
-        raise NotImplementedError
+        return (
+            self.n
+            * self.alpha
+            * self.beta
+            * (self.alpha + self.beta + self.n)
+            / ((self.alpha + self.beta) ** 2 * (self.alpha + self.beta + 1))
+        )
 
     def pdf(self, x: float) -> float:
-        raise NotImplementedError
+        k = int(x)
+        return float(betabinom.pmf(k, self.n, self.alpha, self.beta))
 
     def cdf(self, x: float) -> float:
-        raise NotImplementedError
+        k = int(x)
+        return float(betabinom.cdf(k, self.n, self.alpha, self.beta))

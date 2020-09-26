@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from scipy.stats import nbinom
+
 from probs.discrete.rv import DiscreteRV
 
 
@@ -25,20 +27,28 @@ class NegativeBinomial(DiscreteRV):
     r: float = 0
     p: float = 1
 
+    def __post_init__(self) -> None:
+        if self.r <= 0:
+            raise ValueError("r must be greater than 0.")
+
     def median(self) -> float:
         raise NotImplementedError
 
     def mode(self) -> float:
-        raise NotImplementedError
+        if self.r <= 1:
+            return 0
+        return self.p * (self.r - 1) / (1 - self.p)
 
     def expectation(self) -> float:
-        raise NotImplementedError
+        return self.p * self.r / (1 - self.p)
 
     def variance(self) -> float:
-        raise NotImplementedError
+        return self.p * self.r / (1 - self.p) ** 2
 
     def pdf(self, x: float) -> float:
-        raise NotImplementedError
+        k = int(x)
+        return float(nbinom.pmf(k, self.r, self.p))
 
     def cdf(self, x: float) -> float:
-        raise NotImplementedError
+        k = int(x)
+        return float(nbinom.cdf(k, self.r, self.p))

@@ -1,3 +1,4 @@
+import math
 from dataclasses import dataclass
 
 from probs.continuous.rv import ContinuousRV
@@ -18,23 +19,29 @@ class Laplace(ContinuousRV):
     mu: float = 1
     b: float = 1
 
+    def __post_init__(self) -> None:
+        if self.b <= 0:
+            raise ValueError("b must be greater than 0.")
+
     def __str__(self) -> str:
         return f"Laplace(μ={self.mu}, b={self.b})"
 
     def median(self) -> float:
-        raise NotImplementedError
+        return self.mu
 
     def mode(self) -> float:
-        raise NotImplementedError
+        return self.mu
 
     def expectation(self) -> float:
-        raise NotImplementedError
+        return self.mu
 
     def variance(self) -> float:
-        raise NotImplementedError
+        return 2 * self.b ** 2
 
     def pdf(self, x: float) -> float:
-        raise NotImplementedError
+        return 1 / (2 * self.b) * math.exp(-abs(x - self.mu) / self.b)
 
     def cdf(self, x: float) -> float:
-        raise NotImplementedError
+        if x < self.mu:
+            return 0.5 * math.exp((x - self.mu) / self.b)
+        return 1 - 0.5 * math.exp(-(x - self.mu) / self.b)
