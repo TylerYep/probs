@@ -78,6 +78,21 @@ class ContinuousRV(RandomVariable):
             return result
         return cast(ContinuousRV, super().__truediv__(other))
 
+    def median(self) -> float:
+        raise NotImplementedError
+
+    def mode(self) -> float:
+        raise NotImplementedError
+
+    def expectation(self) -> float:
+        raise NotImplementedError
+
+    def variance(self) -> float:
+        raise NotImplementedError
+
+    def pdf(self, x: float) -> float:
+        raise NotImplementedError
+
     def cdf(self, x: float) -> float:
         """
         General implementation of the cdf function, which may be overridden

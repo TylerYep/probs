@@ -78,6 +78,18 @@ class DiscreteRV(RandomVariable):
             return Event(self.pdf(other))
         raise TypeError
 
+    def median(self) -> float:
+        raise NotImplementedError
+
+    def mode(self) -> float:
+        raise NotImplementedError
+
+    def expectation(self) -> float:
+        raise NotImplementedError
+
+    def variance(self) -> float:
+        raise NotImplementedError
+
     def pdf(self, x: float) -> float:
         """
         General implementation of the pdf function, which may be overridden

@@ -2,8 +2,6 @@ from __future__ import annotations
 
 from probs.floats import ApproxFloat
 
-# def default_repr(obj: Any) -> str:
-
 
 class Event:
     def __init__(self, prob: float) -> None:

@@ -55,6 +55,12 @@ class Normal(ContinuousRV):
             return self * (1.0 / other)
         return cast(RandomVariable, super().__truediv__(other))
 
+    def median(self) -> float:
+        return self.mu
+
+    def mode(self) -> float:
+        return self.mu
+
     def expectation(self) -> float:
         return self.mu
 
