@@ -8,8 +8,8 @@ def test_uniform() -> None:
     z = u + v
 
     assert isinstance(z, RandomVariable)
-    assert z.pdf(0.5) == 2.000000000000003
-    assert (u * v).pdf(0.5) == 39.01690085582181
+    assert z.pdf(0.5) == 0.4999999999999544
+    assert (u * v).pdf(0.5) == 0.6931471805599388
     assert (1 * v).pdf(0.5) == 1.0
 
 
