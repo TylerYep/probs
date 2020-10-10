@@ -96,15 +96,11 @@ class RandomVariable:
             result.cdf = lambda z: self.cdf(z ** other_float)  # type: ignore
             result.expectation = lambda: (_ for _ in ()).throw(  # type: ignore
                 # lambda: exp(log(self) * other_float).expectation()
-                NotImplementedError(  # type: ignore
-                    "Expectation cannot be implemented for division."
-                )
+                NotImplementedError("Expectation cannot be implemented for division.")
             )
             result.variance = lambda: (_ for _ in ()).throw(  # type: ignore
                 # lambda: exp(log(self) * other_float).variance()
-                NotImplementedError(  # type: ignore
-                    "Variance cannot be implemented for division."
-                )
+                NotImplementedError("Variance cannot be implemented for division.")
             )
         raise TypeError
 

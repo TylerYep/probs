@@ -6,7 +6,7 @@ from functools import reduce
 if sys.version_info >= (3, 8):
 
     def nCr(n: int, r: int) -> int:
-        return math.comb(n, r)  # type: ignore
+        return math.comb(n, r)
 
     def nPr(n: int, r: int) -> int:
         return math.perm(n, r)  # type: ignore
