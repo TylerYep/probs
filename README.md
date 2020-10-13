@@ -2,6 +2,7 @@
 [![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/release/python-370/)
 [![Build Status](https://travis-ci.com/TylerYep/probs.svg?branch=master)](https://travis-ci.com/TylerYep/probs)
 [![GitHub license](https://img.shields.io/github/license/TylerYep/probs)](https://github.com/TylerYep/probs/blob/master/LICENSE)
+[![codecov](https://codecov.io/gh/TylerYep/probs/branch/master/graph/badge.svg)](https://codecov.io/gh/TylerYep/probs)
 [![Downloads](https://pepy.tech/badge/probs)](https://pepy.tech/project/probs)
 
 Probability is a concept that many introductory Computer Science courses teach because of its frequent application in algorithms, data structures, and other mathematical fields. While numerous libraries for expressing probabilities exist (e.g. scipy, statistics, etc), the majority of them focus primarily on the application of these concepts rather than showcasing the mechanics of the mathematical theory.
