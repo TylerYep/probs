@@ -48,7 +48,6 @@ assert Var(u + v) == 1 / 6
 All issues and pull requests are much appreciated! To build the project:
 
 - probs is actively developed using the lastest version of Python.
-    - Run `pip install -r requirements-dev.txt`. We use the latest versions of all dev packages.
-    - First, be sure to run `./scripts/install-hooks`
-    - To run all tests and use auto-formatting tools, check out `scripts/run-tests`.
+    - First, be sure to run `pre-commit install`.
+    - To run all tests and use auto-formatting tools, use `pre-commit run`.
     - To only run unit tests, run `pytest`.
