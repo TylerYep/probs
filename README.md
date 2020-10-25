@@ -51,3 +51,6 @@ All issues and pull requests are much appreciated! To build the project:
     - First, be sure to run `pre-commit install`.
     - To run all tests and use auto-formatting tools, use `pre-commit run`.
     - To only run unit tests, run `pytest`.
+
+## TODO List
+- Use ApproxFloat across all operations.

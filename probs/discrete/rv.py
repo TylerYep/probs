@@ -1,82 +1,90 @@
 from __future__ import annotations
 
-from typing import Any, Dict, List, cast, no_type_check
+import operator
+from typing import Any, Callable, Dict, TypeVar, cast
 
-from probs.rv import Event, RandomVariable
+from probs.floats import ApproxFloat
+from probs.rv import RandomVariable
+
+T = TypeVar("T")
 
 
 class DiscreteRV(RandomVariable):
     def __init__(self) -> None:
         self.pmf: Dict[Any, float] = {}
-        self.item_list: List[Any] = []
+        # assert sum(self.pmf.values()) == 1
+        # assert all(a >= 0 for a in self.pmf.values())
 
-    @no_type_check
     def __add__(self, other: object) -> DiscreteRV:
         if isinstance(other, DiscreteRV):
-            other_var = other
             result = type(self)()
-            # result.pdf = lambda z:
-            result.expectation = lambda: self.expectation() + other_var.expectation()
-            # # Assumes Independence of X and Y, else add (+ 2 * Cov(X, Y)) term
-            result.variance = lambda: self.variance() + other_var.variance()
+            result.pmf = self.combine_pmf(self.pmf, other.pmf, operator.add)
+            result.expectation = lambda: self.expectation() + other.expectation()  # type: ignore # noqa: E501
+            # Assumes Independence of X and Y, else add (+ 2 * Cov(X, Y)) term
+            result.variance = lambda: self.variance() + other.variance()  # type: ignore
             return result
         return cast(DiscreteRV, super().__add__(other))
 
-    @no_type_check
     def __sub__(self, other: object) -> DiscreteRV:
         if isinstance(other, DiscreteRV):
-            other_var = other
             result = type(self)()
-            # result.pdf = lambda z:
-            result.expectation = lambda: self.expectation() - other_var.expectation()
-            result.variance = lambda: self.variance() - other_var.variance()
+            result.pmf = self.combine_pmf(self.pmf, other.pmf, operator.sub)
+            result.expectation = lambda: self.expectation() - other.expectation()  # type: ignore # noqa: E501
+            result.variance = lambda: self.variance() - other.variance()  # type: ignore
             return result
         return cast(DiscreteRV, super().__sub__(other))
 
-    @no_type_check
     def __mul__(self, other: object) -> DiscreteRV:
         if isinstance(other, DiscreteRV):
-            other_var = other
             result = type(self)()
-            # result.pdf = lambda z:
+            result.pmf = self.combine_pmf(self.pmf, other.pmf, operator.mul)
             # Assumes Independence of X and Y
-            result.expectation = lambda: self.expectation() * other_var.expectation()
-            result.variance = (
-                lambda: (self.variance() ** 2 + self.expectation() ** 2)
-                + (other_var.variance() ** 2 + other_var.expectation() ** 2)
-                - (self.expectation() * other_var.expectation()) ** 2
+            result.expectation = lambda: self.expectation() * other.expectation()  # type: ignore # noqa: E501
+            result.variance = (  # type: ignore
+                lambda: (self.variance() ** 2 + self.expectation() ** 2)  # type: ignore
+                + (other.variance() ** 2 + other.expectation() ** 2)  # type: ignore
+                - (self.expectation() * other.expectation()) ** 2  # type: ignore
             )
             return result
         return cast(DiscreteRV, super().__mul__(other))
 
-    @no_type_check
     def __truediv__(self, other: object) -> DiscreteRV:
         if isinstance(other, DiscreteRV):
-            # other_var = other
             result = type(self)()
-            # result.pdf = lambda z:
-            result.expectation = lambda: (_ for _ in ()).throw(
+            result.pmf = self.combine_pmf(self.pmf, other.pmf, operator.truediv)
+            result.expectation = lambda: (_ for _ in ()).throw(  # type: ignore
                 NotImplementedError("Expectation cannot be implemented for division.")
             )
-            result.variance = lambda: (_ for _ in ()).throw(
+            result.variance = lambda: (_ for _ in ()).throw(  # type: ignore
                 NotImplementedError("Variance cannot be implemented for division.")
             )
             return result
         return cast(DiscreteRV, super().__truediv__(other))
 
-    def __eq__(self, other: object) -> Event:  # type: ignore
-        if isinstance(other, RandomVariable):
-            return Event((self - other).pdf(0))
-        if isinstance(other, (int, float)):
-            return Event(self.pdf(other))
-        raise TypeError
+    # def __eq__(self, other: object) -> Event:
+    #     if isinstance(other, RandomVariable):
+    #         return Event((self - other).pdf(0))
+    #     if isinstance(other, (int, float)):
+    #         return Event(self.pdf(other))
+    #     raise TypeError
 
-    def __neq__(self, other: object) -> Event:
-        if isinstance(other, RandomVariable):
-            return Event((self - other).pdf(0))
-        if isinstance(other, (int, float)):
-            return Event(self.pdf(other))
-        raise TypeError
+    # def __neq__(self, other: object) -> Event:
+    #     if isinstance(other, RandomVariable):
+    #         return Event((self - other).pdf(0))
+    #     if isinstance(other, (int, float)):
+    #         return Event(self.pdf(other))
+    #     raise TypeError
+
+    @staticmethod
+    def combine_pmf(
+        first: Dict[T, float], second: Dict[T, float], op: Callable[[T, T], T]
+    ) -> Dict[T, float]:
+        pmf: Dict[T, float] = {}
+        for a, prob_a in first.items():
+            for b, prob_b in second.items():
+                key = op(a, b)
+                pmf[key] = pmf.get(key, 0) + prob_a * prob_b
+        return {k: ApproxFloat(v) for k, v in pmf.items()}
 
     def median(self) -> float:
         raise NotImplementedError
@@ -94,12 +102,16 @@ class DiscreteRV(RandomVariable):
         """
         General implementation of the pdf function, which may be overridden
         in child classes to provide a clearer/more efficient implementation.
+
+        For missing values of the pmf, we return 0 here rather than using a defaultdict
+        because this way allows us to access the pmf's keys internally without
+        accidentally adding empty values.
         """
-        return self.pmf[x]
+        return self.pmf[x] if x in self.pmf else 0
 
     def cdf(self, x: float) -> float:
         """
         General implementation of the cdf function, which may be overridden
         in child classes to provide a clearer/more efficient implementation.
         """
-        return sum(self.pdf(item) for item in self.item_list if item < x)
+        return sum(self.pdf(item) for item in sorted(self.pmf) if item < x)

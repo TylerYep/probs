@@ -41,6 +41,10 @@ class Event:
 
 
 class RandomVariable:
+    """
+    https://en.wikipedia.org/wiki/Algebra_of_random_variables
+    """
+
     def __repr__(self) -> str:
         field_pairs = [
             f"{attr}={getattr(self, attr)}"
@@ -51,13 +55,10 @@ class RandomVariable:
 
     def __add__(self, other: object) -> RandomVariable:
         if isinstance(other, (int, float)):
-            other_float = other
             result = type(self)()
-            result.pdf = lambda z: self.pdf(z + other_float)  # type: ignore
-            result.cdf = lambda z: self.cdf(z + other_float)  # type: ignore
-            result.expectation = (  # type: ignore
-                lambda: self.expectation() + other_float
-            )
+            result.pdf = lambda z: self.pdf(z + other)  # type: ignore
+            result.cdf = lambda z: self.cdf(z + other)  # type: ignore
+            result.expectation = lambda: self.expectation() + other  # type: ignore
             result.variance = self.variance  # type: ignore
             return result
         raise TypeError
@@ -69,16 +70,11 @@ class RandomVariable:
 
     def __mul__(self, other: object) -> RandomVariable:
         if isinstance(other, (int, float)):
-            other_float = other
             result = type(self)()
-            result.pdf = lambda z: self.pdf(z * other_float)  # type: ignore
-            result.cdf = lambda z: self.cdf(z * other_float)  # type: ignore
-            result.expectation = (  # type: ignore
-                lambda: self.expectation() * other_float
-            )
-            result.variance = lambda: self.variance() * (  # type: ignore
-                other_float ** 2
-            )
+            result.pdf = lambda z: self.pdf(z * other)  # type: ignore
+            result.cdf = lambda z: self.cdf(z * other)  # type: ignore
+            result.expectation = lambda: self.expectation() * other  # type: ignore
+            result.variance = lambda: self.variance() * other ** 2  # type: ignore
             return result
         raise TypeError
 
@@ -88,18 +84,16 @@ class RandomVariable:
         raise TypeError
 
     def __pow__(self, other: object) -> RandomVariable:
-        # https://en.wikipedia.org/wiki/Algebra_of_random_variables
         if isinstance(other, (int, float)):
-            other_float = other
             result = type(self)()
-            result.pdf = lambda z: self.pdf(z ** other_float)  # type: ignore
-            result.cdf = lambda z: self.cdf(z ** other_float)  # type: ignore
+            result.pdf = lambda z: self.pdf(z ** other)  # type: ignore
+            result.cdf = lambda z: self.cdf(z ** other)  # type: ignore
             result.expectation = lambda: (_ for _ in ()).throw(  # type: ignore
-                # lambda: exp(log(self) * other_float).expectation()
+                # lambda: exp(log(self) * other).expectation()
                 NotImplementedError("Expectation cannot be implemented for division.")
             )
             result.variance = lambda: (_ for _ in ()).throw(  # type: ignore
-                # lambda: exp(log(self) * other_float).variance()
+                # lambda: exp(log(self) * other).variance()
                 NotImplementedError("Variance cannot be implemented for division.")
             )
         raise TypeError
@@ -139,6 +133,7 @@ class RandomVariable:
     def __ge__(self, other: object) -> Event:
         return self > other
 
+    # The following are all abstract methods.
     def median(self) -> float:
         raise NotImplementedError
 
