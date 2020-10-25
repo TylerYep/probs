@@ -1,24 +1,21 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
+
 from probs.floats import ApproxFloat
 
 
+@dataclass(order=True)
 class Event:
     """
     We do not use the @property decorator for some fields because we don't want them
     appear in the __repr__ for this class.
     """
 
-    def __init__(self, prob: float) -> None:
-        self.prob = prob
+    prob: float
 
-    def __repr__(self) -> str:
-        field_pairs = [
-            f"{attr}={getattr(self, attr)}"
-            for attr in dir(self)
-            if not callable(getattr(self, attr)) and not attr.startswith("__")
-        ]
-        return f"{self.__class__.__qualname__}({', '.join(field_pairs)})"
+    # def __init__(self, prob: float) -> None:
+    #     self.prob = prob
 
     # TODO: these are probably incorrect
     def __and__(self, other: object) -> Event:
@@ -35,10 +32,10 @@ class Event:
             return Event(self.prob + other.prob - (self & other).prob)
         raise TypeError
 
-    def __eq__(self, other: object) -> bool:
-        if isinstance(other, Event):
-            return self.probability() == other.probability()
-        raise TypeError
+    # def __eq__(self, other: object) -> bool:
+    #     if isinstance(other, Event):
+    #         return self.probability() == other.probability()
+    #     raise TypeError
 
     def probability(self) -> ApproxFloat:
         return ApproxFloat(self.prob)
@@ -133,7 +130,7 @@ class RandomVariable:
         raise TypeError
 
     def __ne__(self, other: object) -> Event:  # type: ignore
-        return Event(1 - (self == other).probability())
+        return Event(1 - (self == other).prob)
 
     def __lt__(self, other: object) -> Event:
         if isinstance(other, RandomVariable):
@@ -143,17 +140,17 @@ class RandomVariable:
         raise TypeError
 
     def __le__(self, other: object) -> Event:
-        return self < other
+        return Event((self < other).prob + (self == other).prob)
 
-    def __gt__(self, other: object) -> Event:
+    def __ge__(self, other: object) -> Event:
         if isinstance(other, RandomVariable):
             return Event(1 - (self - other).cdf(0))
         if isinstance(other, (int, float)):
             return Event(1 - self.cdf(other))
         raise TypeError
 
-    def __ge__(self, other: object) -> Event:
-        return self > other
+    def __gt__(self, other: object) -> Event:
+        return Event((self >= other).prob - (self == other).prob)
 
     # The following are all abstract methods.
     def median(self) -> float:

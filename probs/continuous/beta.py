@@ -5,7 +5,7 @@ from scipy.stats import beta
 from probs.continuous.rv import ContinuousRV
 
 
-@dataclass
+@dataclass(eq=False)
 class Beta(ContinuousRV):
     """
     The beta distribution is a family of continuous probability distributions

@@ -8,10 +8,16 @@ class TestDiceRoll:
         d = DiceRoll()
 
         assert d.expectation() == 3.5
-        assert d.variance() == 105 / 36
+        assert d.variance() == 35 / 12
+
         assert P(d == 2) == 1 / 6
         assert P(d == 6) == 1 / 6
         assert P(d == 8) == 0
+
+        assert P(d < 5) == 2 / 3
+        assert P(d <= 5) == 5 / 6
+        assert P(d >= 5) == 1 / 3
+        assert P(d > 5) == 1 / 6
 
     @staticmethod
     def test_two_dice_roll() -> None:

@@ -5,7 +5,7 @@ from probs.counting import nCr
 from probs.discrete.rv import DiscreteRV
 
 
-@dataclass
+@dataclass(init=False, eq=False)
 class Binomial(DiscreteRV):
     """
     The binomial distribution with parameters n and p is the discrete

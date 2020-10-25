@@ -54,3 +54,9 @@ All issues and pull requests are much appreciated! To build the project:
 
 ## TODO List
 - Use ApproxFloat across all operations.
+- Dataclasses are janky.
+    - Need to set eq=False on all RandomVariables.
+    - Need to set init=False in order to get the parent class's fields.
+    - Need to set repr=False in order to get the parent's __repr__ method.
+
+- Figure out how to merge pmf and custom pmf functions.

@@ -6,7 +6,7 @@ from probs.continuous.rv import ContinuousRV
 from probs.rv import RandomVariable
 
 
-@dataclass
+@dataclass(eq=False)
 class Normal(ContinuousRV):
     """
     The normal distribution is a type of continuous probability distribution

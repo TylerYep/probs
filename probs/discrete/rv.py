@@ -10,6 +10,12 @@ T = TypeVar("T")
 
 
 class DiscreteRV(RandomVariable):
+    """
+    Note that if you use a dataclass as the inherited class, you may need to set
+    init=False ()
+    repr=False (to use the RandomVarible __repr__)
+    """
+
     def __init__(self) -> None:
         self.pmf: Dict[Any, float] = {}
         # assert sum(self.pmf.values()) == 1
