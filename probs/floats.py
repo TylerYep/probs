@@ -9,6 +9,10 @@ class ApproxFloat(float):
             return math.isclose(self, other)
         return super().__eq__(other)
 
+    def __repr__(self) -> str:
+        """ Removes trailing zeroes from float representation. """
+        return str(float(f"{self:.8f}"))
+
 
 class ApproxFloatRtol(float):
     def __new__(cls, value: float, rtol: float = 1e-9) -> ApproxFloatRtol:
@@ -24,3 +28,7 @@ class ApproxFloatRtol(float):
         if isinstance(other, (int, float)):
             return math.isclose(self, other, rel_tol=self.rtol)
         return super().__eq__(other)
+
+    def __repr__(self) -> str:
+        """ Removes trailing zeroes from float representation. """
+        return str(float(f"{self:.8f}"))

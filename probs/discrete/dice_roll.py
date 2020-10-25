@@ -3,15 +3,14 @@ from dataclasses import dataclass
 from probs.discrete.rv import DiscreteRV
 
 
-@dataclass
+@dataclass(init=False, eq=False, repr=False)
 class DiceRoll(DiscreteRV):
     def __init__(self, sides: int = 6) -> None:
         super().__init__()
         if sides <= 0:
             raise ValueError("Dice must have a positive number of sides.")
+        self.pmf = {i: 1 / sides for i in range(1, sides + 1)}
         self.sides = sides
-        self.p = 1 / sides
-        self.pmf = {i: self.p for i in range(1, sides + 1)}
 
     def median(self) -> float:
         return self.sides // 2

@@ -1,5 +1,4 @@
-from probs.operations import P
-from probs.rv import Event, RandomVariable
+from probs import Event, P, RandomVariable
 
 
 def test_event() -> None:

@@ -42,3 +42,10 @@ def test_normal_algebra() -> None:
     assert math.isclose(c.variance(), 273)
     assert math.isclose(d.variance(), 1)
     assert math.isclose(e.variance(), 28561)
+
+
+def test_normal_repr() -> None:
+    u = Normal()
+
+    assert repr(u) == "Normal(mu=0, sigma=1)"
+    assert str(u) == "Normal(μ=0, σ²=1)"

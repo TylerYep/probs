@@ -4,6 +4,11 @@ from probs.floats import ApproxFloat
 
 
 class Event:
+    """
+    We do not use the @property decorator for some fields because we don't want them
+    appear in the __repr__ for this class.
+    """
+
     def __init__(self, prob: float) -> None:
         self.prob = prob
 
@@ -26,9 +31,14 @@ class Event:
         return Event(self.prob * other.prob)
 
     def __or__(self, other: object) -> Event:
-        if not isinstance(other, Event):
-            raise TypeError
-        return Event(self.prob + other.prob - (self & other).prob)
+        if isinstance(other, Event):
+            return Event(self.prob + other.prob - (self & other).prob)
+        raise TypeError
+
+    def __eq__(self, other: object) -> bool:
+        if isinstance(other, Event):
+            return self.probability() == other.probability()
+        raise TypeError
 
     def probability(self) -> ApproxFloat:
         return ApproxFloat(self.prob)
@@ -42,6 +52,9 @@ class Event:
 
 class RandomVariable:
     """
+    We do not use the @property decorator for some fields because we don't want them
+    appear in the __repr__ for this class.
+
     https://en.wikipedia.org/wiki/Algebra_of_random_variables
     """
 
@@ -112,6 +125,15 @@ class RandomVariable:
 
     def __rpow__(self, other: object) -> RandomVariable:
         return self ** other
+
+    def __eq__(self, other: object) -> Event:  # type: ignore
+        """ By default, the probabilty of equality is 0. """
+        if isinstance(other, (int, float, RandomVariable)):
+            return Event(0)
+        raise TypeError
+
+    def __ne__(self, other: object) -> Event:  # type: ignore
+        return Event(1 - (self == other).probability())
 
     def __lt__(self, other: object) -> Event:
         if isinstance(other, RandomVariable):

@@ -4,7 +4,7 @@ import operator
 from typing import Any, Callable, Dict, TypeVar, cast
 
 from probs.floats import ApproxFloat
-from probs.rv import RandomVariable
+from probs.rv import Event, RandomVariable
 
 T = TypeVar("T")
 
@@ -61,19 +61,16 @@ class DiscreteRV(RandomVariable):
             return result
         return cast(DiscreteRV, super().__truediv__(other))
 
-    # def __eq__(self, other: object) -> Event:
-    #     if isinstance(other, RandomVariable):
-    #         return Event((self - other).pdf(0))
-    #     if isinstance(other, (int, float)):
-    #         return Event(self.pdf(other))
-    #     raise TypeError
-
-    # def __neq__(self, other: object) -> Event:
-    #     if isinstance(other, RandomVariable):
-    #         return Event((self - other).pdf(0))
-    #     if isinstance(other, (int, float)):
-    #         return Event(self.pdf(other))
-    #     raise TypeError
+    def __eq__(self, other: object) -> Event:  # type: ignore
+        """
+        Discrete Variables can be compare using equality operators to form Events,
+        e.g. P(A == B) or P(A == 1).
+        """
+        if isinstance(other, (int, float)):
+            return Event(self.pdf(other))
+        if isinstance(other, RandomVariable):
+            return Event((self - other).pdf(0))
+        raise TypeError
 
     @staticmethod
     def combine_pmf(
