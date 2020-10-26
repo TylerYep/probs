@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from probs.continuous.rv import ContinuousRV
 
 
-@dataclass
+@dataclass(eq=False)
 class Uniform(ContinuousRV):
     a: float = 0
     b: float = 1

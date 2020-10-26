@@ -5,7 +5,7 @@ from scipy.stats import invgamma
 from probs.continuous.rv import ContinuousRV
 
 
-@dataclass
+@dataclass(eq=False)
 class InverseGamma(ContinuousRV):
     """
     The inverse gamma distribution is a two-parameter family of continuous

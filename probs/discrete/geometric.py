@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from probs.discrete.rv import DiscreteRV
 
 
-@dataclass
+@dataclass(eq=False)
 class Geometric(DiscreteRV):
     """
     The (shifted) geometric distribution gives the probability that the first

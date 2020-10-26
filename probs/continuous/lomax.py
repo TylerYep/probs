@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from probs.continuous.rv import ContinuousRV
 
 
-@dataclass
+@dataclass(eq=False)
 class Lomax(ContinuousRV):
     """
     The Lomax distribution, conditionally also called the Pareto Type II

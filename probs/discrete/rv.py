@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import operator
+from dataclasses import dataclass, field
 from typing import Any, Callable, Dict, TypeVar, cast
 
 from probs.floats import ApproxFloat
@@ -9,17 +10,9 @@ from probs.rv import Event, RandomVariable
 T = TypeVar("T")
 
 
+@dataclass(eq=False)
 class DiscreteRV(RandomVariable):
-    """
-    Note that if you use a dataclass as the inherited class, you may need to set
-    init=False ()
-    repr=False (to use the RandomVarible __repr__)
-    """
-
-    def __init__(self) -> None:
-        self.pmf: Dict[Any, float] = {}
-        # assert sum(self.pmf.values()) == 1
-        # assert all(a >= 0 for a in self.pmf.values())
+    pmf: Dict[Any, float] = field(default_factory=dict)
 
     def __add__(self, other: object) -> DiscreteRV:
         if isinstance(other, DiscreteRV):
@@ -88,6 +81,10 @@ class DiscreteRV(RandomVariable):
                 key = op(a, b)
                 pmf[key] = pmf.get(key, 0) + prob_a * prob_b
         return {k: ApproxFloat(v) for k, v in pmf.items()}
+
+    def check_pmf(self) -> None:
+        assert sum(self.pmf.values()) == 1
+        assert all(a >= 0 for a in self.pmf.values())
 
     def median(self) -> float:
         raise NotImplementedError

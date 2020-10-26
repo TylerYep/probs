@@ -20,7 +20,7 @@ class TestBinomial:
         assert d.expectation() == 0
         assert d.variance() == 0
         # TODO
-        # assert d.pmf == {}
+        assert d.pmf == {}
         # assert P(d == 2) == 1 / 36
         # assert P(d == 8) == 5 / 36
         # assert P(d == 60) == 0
@@ -29,4 +29,4 @@ class TestBinomial:
     def test_repr() -> None:
         d = Binomial() + Binomial()
 
-        assert str(d) == "Binomial(n=0, p=1)"
+        assert str(d) == "Binomial(pmf={}, n=0, p=1)"

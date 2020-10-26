@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from probs.continuous.rv import ContinuousRV
 
 
-@dataclass
+@dataclass(eq=False)
 class Exponential(ContinuousRV):
     """
     The exponential distribution is the probability distribution of the time

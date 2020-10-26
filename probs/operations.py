@@ -11,7 +11,7 @@ SYNTAX_WARNING = (
 class Probability:
     @staticmethod
     def __call__(event: Event) -> float:
-        return event.probability()
+        return event.probabilty
 
     @staticmethod
     def __getitem__(var: Event) -> float:

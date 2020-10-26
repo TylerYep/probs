@@ -54,9 +54,14 @@ All issues and pull requests are much appreciated! To build the project:
 
 ## TODO List
 - Use ApproxFloat across all operations.
-- Dataclasses are janky.
+- Dataclasses are iffy, because:
+    - Need to set super().__init__() in order to get the parent class's fields.
     - Need to set eq=False on all RandomVariables.
-    - Need to set init=False in order to get the parent class's fields.
     - Need to set repr=False in order to get the parent's __repr__ method.
+
+    - However, clearer __init__ function provided, other operators potentially builtin.
+    - repr can be inherited without a rewrite
+    - inheritance works so long as every parent is also a dataclass.
+    - super short init syntax
 
 - Figure out how to merge pmf and custom pmf functions.

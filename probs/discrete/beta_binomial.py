@@ -5,7 +5,7 @@ from scipy.stats import betabinom
 from probs.discrete.rv import DiscreteRV
 
 
-@dataclass
+@dataclass(eq=False)
 class BetaBinomial(DiscreteRV):
     """
     The beta-binomial distribution is a family of discrete probability

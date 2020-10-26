@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import cast, no_type_check
 
 import numpy as np
@@ -8,6 +9,7 @@ from scipy.integrate import quad
 from probs.rv import RandomVariable
 
 
+@dataclass(eq=False)
 class ContinuousRV(RandomVariable):
     """
     We currently use @no_type_check because there currently isn't any valuable type-info

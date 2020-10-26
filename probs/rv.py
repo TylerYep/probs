@@ -5,17 +5,21 @@ from dataclasses import dataclass
 from probs.floats import ApproxFloat
 
 
-@dataclass(order=True)
+@dataclass
 class Event:
     """
     We do not use the @property decorator for some fields because we don't want them
     appear in the __repr__ for this class.
+
+    Using the `probability` field is more clear than using the `p` field.
+    `p` is only used for the __repr__()
     """
 
-    prob: float
+    p: float
 
-    # def __init__(self, prob: float) -> None:
-    #     self.prob = prob
+    def __post_init__(self) -> None:
+        self.p = ApproxFloat(self.p)
+        self.probabilty = self.p
 
     # TODO: these are probably incorrect
     def __and__(self, other: object) -> Event:
@@ -24,29 +28,22 @@ class Event:
         if self.mutually_exclusive_of(other):
             return Event(0)
         if self.independent_of(other):
-            return Event(self.prob * other.prob)
-        return Event(self.prob * other.prob)
+            return Event(self.probabilty * other.probabilty)
+        return Event(self.probabilty * other.probabilty)
 
     def __or__(self, other: object) -> Event:
         if isinstance(other, Event):
-            return Event(self.prob + other.prob - (self & other).prob)
+            return Event(self.probabilty + other.probabilty - (self & other).probabilty)
         raise TypeError
 
-    # def __eq__(self, other: object) -> bool:
-    #     if isinstance(other, Event):
-    #         return self.probability() == other.probability()
-    #     raise TypeError
-
-    def probability(self) -> ApproxFloat:
-        return ApproxFloat(self.prob)
-
     def independent_of(self, other: Event) -> bool:
-        return self.prob != other.prob  # TODO
+        return self.probabilty != other.probabilty  # TODO
 
     def mutually_exclusive_of(self, other: Event) -> bool:
-        return self.prob == other.prob  # TODO
+        return self.probabilty == other.probabilty  # TODO
 
 
+@dataclass(eq=False)
 class RandomVariable:
     """
     We do not use the @property decorator for some fields because we don't want them
@@ -54,14 +51,6 @@ class RandomVariable:
 
     https://en.wikipedia.org/wiki/Algebra_of_random_variables
     """
-
-    def __repr__(self) -> str:
-        field_pairs = [
-            f"{attr}={getattr(self, attr)}"
-            for attr in dir(self)
-            if not callable(getattr(self, attr)) and not attr.startswith("__")
-        ]
-        return f"{self.__class__.__qualname__}({', '.join(field_pairs)})"
 
     def __add__(self, other: object) -> RandomVariable:
         if isinstance(other, (int, float)):
@@ -130,7 +119,7 @@ class RandomVariable:
         raise TypeError
 
     def __ne__(self, other: object) -> Event:  # type: ignore
-        return Event(1 - (self == other).prob)
+        return Event(1 - (self == other).probabilty)
 
     def __lt__(self, other: object) -> Event:
         if isinstance(other, RandomVariable):
@@ -140,7 +129,7 @@ class RandomVariable:
         raise TypeError
 
     def __le__(self, other: object) -> Event:
-        return Event((self < other).prob + (self == other).prob)
+        return Event((self < other).probabilty + (self == other).probabilty)
 
     def __ge__(self, other: object) -> Event:
         if isinstance(other, RandomVariable):
@@ -150,7 +139,7 @@ class RandomVariable:
         raise TypeError
 
     def __gt__(self, other: object) -> Event:
-        return Event((self >= other).prob - (self == other).prob)
+        return Event((self >= other).probabilty - (self == other).probabilty)
 
     # The following are all abstract methods.
     def median(self) -> float:

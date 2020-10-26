@@ -5,7 +5,7 @@ from scipy.stats import nbinom
 from probs.discrete.rv import DiscreteRV
 
 
-@dataclass
+@dataclass(eq=False)
 class NegativeBinomial(DiscreteRV):
     """
     The negative binomial distribution is a discrete probability distribution

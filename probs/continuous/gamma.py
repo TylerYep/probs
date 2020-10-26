@@ -5,7 +5,7 @@ from scipy.stats import gamma
 from probs.continuous.rv import ContinuousRV
 
 
-@dataclass
+@dataclass(eq=False)
 class Gamma(ContinuousRV):
     """
     The gamma distribution is a two-parameter family of continuous probability
@@ -19,7 +19,7 @@ class Gamma(ContinuousRV):
     The parameterization with α and β is more common in Bayesian statistics,
     where the gamma distribution is used as a conjugate prior distribution for
     various types of inverse scale (rate) parameters, such as the λ (rate) of
-    an exponential distribution or of a Poisson distribution
+    an exponential distribution or of a Poisson distribution.
 
     https://en.wikipedia.org/wiki/Gamma_distribution
     """

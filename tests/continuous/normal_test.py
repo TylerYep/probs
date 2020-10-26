@@ -16,12 +16,12 @@ def test_normal_pdf() -> None:
 
 
 def test_normal_event() -> None:
-    u = Normal()
+    n = Normal()
 
-    assert isinstance(u > 5, Event)
-    assert isinstance(5 < u, Event)
-    assert P(u < 0) == 0.5
-    assert P(u < 14) == 1
+    assert isinstance(n > 5, Event)
+    assert isinstance(5 < n, Event)
+    assert P(n < 0) == 0.5
+    assert P(n < 14) == 1
 
 
 def test_normal_algebra() -> None:
@@ -45,7 +45,7 @@ def test_normal_algebra() -> None:
 
 
 def test_normal_repr() -> None:
-    u = Normal()
+    n = Normal()
 
-    assert repr(u) == "Normal(mu=0, sigma=1)"
-    assert str(u) == "Normal(μ=0, σ²=1)"
+    assert repr(n) == "Normal(mu=0, sigma=1)"
+    assert str(n) == "Normal(μ=0, σ²=1)"

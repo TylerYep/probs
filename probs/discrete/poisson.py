@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from probs.discrete.rv import DiscreteRV
 
 
-@dataclass
+@dataclass(eq=False)
 class Poisson(DiscreteRV):
     """
     The Poisson distribution is a discrete probability distribution that

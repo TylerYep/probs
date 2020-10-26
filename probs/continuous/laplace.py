@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from probs.continuous.rv import ContinuousRV
 
 
-@dataclass
+@dataclass(eq=False)
 class Laplace(ContinuousRV):
     """
     The Laplace distribution is also sometimes called the double exponential

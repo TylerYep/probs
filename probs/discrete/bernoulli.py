@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from probs.discrete.rv import DiscreteRV
 
 
-@dataclass
+@dataclass(eq=False)
 class Bernoulli(DiscreteRV):
     p: float = 1
 

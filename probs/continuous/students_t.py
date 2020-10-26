@@ -6,7 +6,7 @@ from scipy.stats import t
 from probs.continuous.rv import ContinuousRV
 
 
-@dataclass
+@dataclass(eq=False)
 class StudentsT(ContinuousRV):
     """
     Student's t-distribution (or simply the t-distribution) is any member of a
