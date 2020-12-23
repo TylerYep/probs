@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
 import math
+from dataclasses import dataclass
 from typing import Any, Iterable, Optional, Sequence, cast, no_type_check
 
 import numpy as np
@@ -73,7 +73,7 @@ class ContinuousRV(RandomVariable):
                 + (other.variance() ** 2 + other.expectation() ** 2)
                 - (self.expectation() * other.expectation()) ** 2
             )
-            result.median = lambda: self.median() * other_var.median()
+            result.median = lambda: self.median() * other.median()
             return result
         return cast(ContinuousRV, super().__mul__(other))
 
