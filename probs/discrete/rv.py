@@ -86,10 +86,10 @@ class DiscreteRV(RandomVariable):
         assert sum(self.pmf.values()) == 1
         assert all(a >= 0 for a in self.pmf.values())
 
-    def median(self) -> float:
-        raise NotImplementedError
+    def mode(self) -> Any:
+        return max(self.pmf.items(), key=operator.itemgetter(1))[0]
 
-    def mode(self) -> float:
+    def median(self) -> float:
         raise NotImplementedError
 
     def expectation(self) -> float:

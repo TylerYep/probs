@@ -1,13 +1,16 @@
 from __future__ import annotations
 
-import math
+# import math
 from dataclasses import dataclass
-from typing import Any, Iterable, Optional, Sequence, cast, no_type_check
+
+# from typing import Any, Iterable, Optional, Sequence
+from typing import cast, no_type_check
 
 import numpy as np
-from matplotlib.axes import Axes
-from mpl_format.axes import AxesFormatter
-from pandas import Series
+
+# from matplotlib.axes import Axes
+# from mpl_format.axes import AxesFormatter
+# from pandas import Series
 from scipy.integrate import quad
 
 from probs.rv import RandomVariable
@@ -119,99 +122,101 @@ class ContinuousRV(RandomVariable):
         """
         return float(quad(self.pdf, -np.inf, x, full_output=True)[0])
 
-    def plot(  # pylint: disable-all
-        self,
-        x: Optional[Iterable[Any]] = None,
-        kind: str = "line",
-        color: str = "C0",
-        plot_type: str = "pdf",
-        labels: Sequence[str] = ("mean", "median", "std"),
-        ax: Optional[Axes] = None,
-        **kwargs: Any,
-    ) -> Axes:
-        """
-        Plot the function.
-        :param x: Range of values of x to plot p(x) over.
-        :param kind: Kind of plot e.g. 'bar', 'line'.
-        :param color: Optional color for the series.
-        :param mean: Whether to show marker and label for the mean.
-        :param median: Whether to show marker and label for the median.
-        :param std: Whether to show marker and label for the standard deviation.
-        :param ax: Optional matplotlib axes to plot on.
-        :param kwargs: Additional arguments for the matplotlib plot function.
-        """
-        axf = AxesFormatter(axes=ax)
-        x_mean = self.expectation()
-        x_median = self.median()
-        x_std = math.sqrt(self.variance())
+    # def plot(  # pylint: disable-all
+    #     self,
+    #     x: Optional[Iterable[Any]] = None,
+    #     kind: str = "line",
+    #     color: str = "C0",
+    #     plot_type: str = "pdf",
+    #     labels: Sequence[str] = ("mean", "median", "std"),
+    #     ax: Optional[Axes] = None,
+    #     **kwargs: Any,
+    # ) -> Axes:
+    #     """
+    #     Plot the function.
+    #     :param x: Range of values of x to plot p(x) over.
+    #     :param kind: Kind of plot e.g. 'bar', 'line'.
+    #     :param color: Optional color for the series.
+    #     :param mean: Whether to show marker and label for the mean.
+    #     :param median: Whether to show marker and label for the median.
+    #     :param std: Whether to show marker and label for the standard deviation.
+    #     :param ax: Optional matplotlib axes to plot on.
+    #     :param kwargs: Additional arguments for the matplotlib plot function.
+    #     """
+    #     axf = AxesFormatter(axes=ax)
+    #     x_mean = self.expectation()
+    #     x_median = self.median()
+    #     x_std = math.sqrt(self.variance())
 
-        if plot_type == "pdf":
-            fn = self.pdf
-        elif plot_type == "cdf":
-            fn = self.cdf
-        # elif plot_type == 'logpdf':
-        #   fn = self.logpdf
-        else:
-            raise ValueError(f"Plot not implemented for {plot_type}")
+    #     if plot_type == "pdf":
+    #         fn = self.pdf
+    #     elif plot_type == "cdf":
+    #         fn = self.cdf
+    #     # elif plot_type == 'logpdf':
+    #     #   fn = self.logpdf
+    #     else:
+    #         raise ValueError(f"Plot not implemented for {plot_type}")
 
-        vals = (
-            np.linspace(x_mean - 3 * x_std, x_mean + 3 * x_std, 200) if x is None else x
-        )
+    #     vals = (
+    #         np.linspace(x_mean - 3 * x_std, x_mean + 3 * x_std, 200)
+    #         if x is None
+    #         else x
+    #     )
 
-        data: Series = Series(
-            index=vals,
-            data=list(map(fn, vals)),
-            name=str(self.__class__),
-        )
-        data.plot(kind=kind, color=color, ax=axf.axes, **kwargs)
+    #     data: Series = Series(
+    #         index=vals,
+    #         data=list(map(fn, vals)),
+    #         name=str(self.__class__),
+    #     )
+    #     data.plot(kind=kind, color=color, ax=axf.axes, **kwargs)
 
-        y_min = axf.get_y_min()
-        y_max = axf.get_y_max()
-        if "mean" in labels:
-            axf.add_v_lines(
-                x=x_mean, y_min=y_min, y_max=y_max, line_styles="--", colors=color
-            )
-            axf.add_text(
-                x=x_mean,
-                y=self.pdf(x_mean),
-                text=f"mean={x_mean: 0.3f}",
-                color=color,
-                ha="center",
-                va="bottom",
-            )
-        if "median" in labels:
-            axf.add_v_lines(
-                x=x_median, y_min=y_min, y_max=y_max, line_styles="-.", colors=color
-            )
-            axf.add_text(
-                x=x_median,
-                y=self.pdf(x_median),
-                text=f"median={x_median: 0.3f}",
-                color=color,
-                ha="center",
-                va="bottom",
-            )
-        if "std" in labels:
-            axf.add_v_lines(
-                x=[x_mean - x_std, x_mean + x_std],
-                y_min=y_min,
-                y_max=y_max,
-                line_styles=":",
-                colors=color,
-            )
-            axf.add_text(
-                x=x_mean - x_std / 2,
-                y=self.pdf(x_mean - x_std / 2),
-                text=f"std={x_std: 0.3f}",
-                color=color,
-                ha="center",
-                va="bottom",
-            )
+    #     y_min = axf.get_y_min()
+    #     y_max = axf.get_y_max()
+    #     if "mean" in labels:
+    #         axf.add_v_lines(
+    #             x=x_mean, y_min=y_min, y_max=y_max, line_styles="--", colors=color
+    #         )
+    #         axf.add_text(
+    #             x=x_mean,
+    #             y=self.pdf(x_mean),
+    #             text=f"mean={x_mean: 0.3f}",
+    #             color=color,
+    #             ha="center",
+    #             va="bottom",
+    #         )
+    #     if "median" in labels:
+    #         axf.add_v_lines(
+    #             x=x_median, y_min=y_min, y_max=y_max, line_styles="-.", colors=color
+    #         )
+    #         axf.add_text(
+    #             x=x_median,
+    #             y=self.pdf(x_median),
+    #             text=f"median={x_median: 0.3f}",
+    #             color=color,
+    #             ha="center",
+    #             va="bottom",
+    #         )
+    #     if "std" in labels:
+    #         axf.add_v_lines(
+    #             x=[x_mean - x_std, x_mean + x_std],
+    #             y_min=y_min,
+    #             y_max=y_max,
+    #             line_styles=":",
+    #             colors=color,
+    #         )
+    #         axf.add_text(
+    #             x=x_mean - x_std / 2,
+    #             y=self.pdf(x_mean - x_std / 2),
+    #             text=f"std={x_std: 0.3f}",
+    #             color=color,
+    #             ha="center",
+    #             va="bottom",
+    #         )
 
-        if plot_type == "pdf":
-            axf.axes.set_ylabel("P(X = x)")
-        elif plot_type == "cdf":
-            axf.axes.set_ylabel("P(X ≤ x)")
-        elif plot_type == "logpdf":
-            axf.axes.set_ylabel("log P(X = x)")
-        return axf.axes
+    #     if plot_type == "pdf":
+    #         axf.axes.set_ylabel("P(X = x)")
+    #     elif plot_type == "cdf":
+    #         axf.axes.set_ylabel("P(X ≤ x)")
+    #     elif plot_type == "logpdf":
+    #         axf.axes.set_ylabel("log P(X = x)")
+    #     return axf.axes

@@ -17,7 +17,7 @@ class ApproxFloat(float):
 class ApproxFloatRtol(float):
     def __new__(cls, value: float, rtol: float = 1e-9) -> ApproxFloatRtol:
         del rtol
-        return float.__new__(cls, value)  # type: ignore
+        return float.__new__(cls, value)
 
     def __init__(self, value: float, rtol: float = 1e-9) -> None:
         float.__init__(value)

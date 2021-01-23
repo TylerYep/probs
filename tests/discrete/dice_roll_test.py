@@ -9,6 +9,7 @@ class TestDiceRoll:
 
         assert d.expectation() == 3.5
         assert d.variance() == 35 / 12
+        assert d.mode() == 1  # Any result is technically correct
 
         assert P(d == 2) == 1 / 6
         assert P(d == 6) == 1 / 6
@@ -25,6 +26,7 @@ class TestDiceRoll:
 
         assert d.expectation() == 7.0
         assert d.variance() == 35 / 6
+        assert d.mode() == 7
         assert d.pmf == {
             2: 1 / 36,
             3: 1 / 18,

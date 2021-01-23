@@ -9,7 +9,7 @@ if sys.version_info >= (3, 8):
         return math.comb(n, r)
 
     def nPr(n: int, r: int) -> int:
-        return math.perm(n, r)  # type: ignore
+        return math.perm(n, r)
 
 
 else:

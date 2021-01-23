@@ -15,9 +15,6 @@ class DiceRoll(DiscreteRV):
     def median(self) -> float:
         return self.sides // 2
 
-    def mode(self) -> float:
-        return 0  # TODO
-
     def expectation(self) -> float:
         return (self.sides + 1) / 2
 
