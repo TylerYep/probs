@@ -79,7 +79,7 @@ class RandomVariable:
 
     def __truediv__(self, other: object) -> RandomVariable:
         if isinstance(other, (int, float)):
-            return self * (1.0 / other)
+            return self * (1 / other)
         raise TypeError
 
     def __pow__(self, other: object) -> RandomVariable:

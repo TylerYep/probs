@@ -24,7 +24,7 @@ class TestDiceRoll:
     def test_two_dice_roll() -> None:
         d = DiceRoll() + DiceRoll()
 
-        assert d.expectation() == 7.0
+        assert d.expectation() == 7
         assert d.variance() == 35 / 6
         assert d.mode() == 7
         assert d.pmf == {

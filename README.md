@@ -33,10 +33,10 @@ assert E(u) == 1 / 2
 assert Var(u) == 1 / 12
 
 assert (u * v).pdf(0.5) == 39.0169
-assert (1 * v).pdf(0.5) == 1.0
+assert (1 * v).pdf(0.5) == 1
 
 assert E(u + 1) == 1.5
-assert E(u + v) == 1.0
+assert E(u + v) == 1
 assert E(u - v) == 0
 
 assert Var(u + v) == 1 / 6

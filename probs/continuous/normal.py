@@ -56,7 +56,7 @@ class Normal(ContinuousRV):
 
     def __truediv__(self, other: object) -> RandomVariable:
         if isinstance(other, (int, float)):
-            return self * (1.0 / other)
+            return self * (1 / other)
         return cast(RandomVariable, super().__truediv__(other))
 
     def median(self) -> float:
@@ -79,4 +79,4 @@ class Normal(ContinuousRV):
         )
 
     def cdf(self, x: float) -> float:
-        return (1.0 + math.erf(x / math.sqrt(2.0))) / 2.0
+        return (1 + math.erf(x / math.sqrt(2))) / 2
