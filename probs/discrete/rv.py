@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import operator
 from dataclasses import dataclass, field
-from typing import Any, Callable, Dict, TypeVar, cast
+from typing import Any, Callable, TypeVar, cast
 
 from probs.floats import ApproxFloat
 from probs.rv import Event, RandomVariable
@@ -12,7 +12,7 @@ T = TypeVar("T")
 
 @dataclass(eq=False)
 class DiscreteRV(RandomVariable):
-    pmf: Dict[Any, float] = field(default_factory=dict)
+    pmf: dict[Any, float] = field(default_factory=dict)
 
     def __add__(self, other: object) -> DiscreteRV:
         if isinstance(other, DiscreteRV):
@@ -73,9 +73,9 @@ class DiscreteRV(RandomVariable):
 
     @staticmethod
     def combine_pmf(
-        first: Dict[T, float], second: Dict[T, float], op: Callable[[T, T], T]
-    ) -> Dict[T, float]:
-        pmf: Dict[T, float] = {}
+        first: dict[T, float], second: dict[T, float], op: Callable[[T, T], T]
+    ) -> dict[T, float]:
+        pmf: dict[T, float] = {}
         for a, prob_a in first.items():
             for b, prob_b in second.items():
                 key = op(a, b)
