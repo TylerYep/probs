@@ -1,3 +1,4 @@
+# pylint: disable=misplaced-comparison-constant
 from probs import DiscreteRV, Event, P
 
 
