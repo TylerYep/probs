@@ -24,7 +24,7 @@ class Event:
     # TODO: these are probably incorrect
     def __and__(self, other: object) -> Event:
         if not isinstance(other, Event):
-            raise TypeError
+            raise NotImplementedError
         if self.mutually_exclusive_of(other):
             return Event(0)
         if self.independent_of(other):
@@ -34,7 +34,7 @@ class Event:
     def __or__(self, other: object) -> Event:
         if isinstance(other, Event):
             return Event(self.probabilty + other.probabilty - (self & other).probabilty)
-        raise TypeError
+        raise NotImplementedError
 
     def independent_of(self, other: Event) -> bool:
         return self.probabilty != other.probabilty  # TODO
@@ -60,12 +60,12 @@ class RandomVariable:
             result.expectation = lambda: self.expectation() + other  # type: ignore
             result.variance = self.variance  # type: ignore
             return result
-        raise TypeError
+        raise NotImplementedError
 
     def __sub__(self, other: object) -> RandomVariable:
         if isinstance(other, (int, float)):
             return self + (-other)
-        raise TypeError
+        raise NotImplementedError
 
     def __mul__(self, other: object) -> RandomVariable:
         if isinstance(other, (int, float)):
@@ -75,12 +75,12 @@ class RandomVariable:
             result.expectation = lambda: self.expectation() * other  # type: ignore
             result.variance = lambda: self.variance() * other ** 2  # type: ignore
             return result
-        raise TypeError
+        raise NotImplementedError
 
     def __truediv__(self, other: object) -> RandomVariable:
         if isinstance(other, (int, float)):
             return self * (1 / other)
-        raise TypeError
+        raise NotImplementedError
 
     def __pow__(self, other: object) -> RandomVariable:
         if isinstance(other, (int, float)):
@@ -95,7 +95,7 @@ class RandomVariable:
                 # lambda: exp(log(self) * other).variance()
                 NotImplementedError("Variance cannot be implemented for division.")
             )
-        raise TypeError
+        raise NotImplementedError
 
     def __radd__(self, other: object) -> RandomVariable:
         return self + other
@@ -116,7 +116,7 @@ class RandomVariable:
         """ By default, the probabilty of equality is 0. """
         if isinstance(other, (int, float, RandomVariable)):
             return Event(0)
-        raise TypeError
+        raise NotImplementedError
 
     def __ne__(self, other: object) -> Event:  # type: ignore
         return Event(1 - (self == other).probabilty)
@@ -126,7 +126,7 @@ class RandomVariable:
             return Event((self - other).cdf(0))
         if isinstance(other, (int, float)):
             return Event(self.cdf(other))
-        raise TypeError
+        raise NotImplementedError
 
     def __le__(self, other: object) -> Event:
         return Event((self < other).probabilty + (self == other).probabilty)
@@ -136,7 +136,7 @@ class RandomVariable:
             return Event(1 - (self - other).cdf(0))
         if isinstance(other, (int, float)):
             return Event(1 - self.cdf(other))
-        raise TypeError
+        raise NotImplementedError
 
     def __gt__(self, other: object) -> Event:
         return Event((self >= other).probabilty - (self == other).probabilty)
