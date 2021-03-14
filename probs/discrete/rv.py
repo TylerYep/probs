@@ -69,7 +69,7 @@ class DiscreteRV(RandomVariable):
             return Event(self.pdf(other))
         if isinstance(other, RandomVariable):
             return Event((self - other).pdf(0))
-        raise NotImplementedError
+        return NotImplemented
 
     @staticmethod
     def combine_pmf(

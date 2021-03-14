@@ -36,7 +36,7 @@ class Normal(ContinuousRV):
             return cast(RandomVariable, super().__add__(other))
         if isinstance(other, (int, float)):
             return Normal(self.mu + other, self.sigma)
-        raise NotImplementedError
+        return NotImplemented
 
     def __sub__(self, other: object) -> RandomVariable:
         if isinstance(other, Normal):
@@ -47,7 +47,7 @@ class Normal(ContinuousRV):
             return cast(RandomVariable, super().__sub__(other))
         if isinstance(other, (int, float)):
             return Normal(self.mu - other, self.sigma)
-        raise NotImplementedError
+        return NotImplemented
 
     def __mul__(self, other: object) -> RandomVariable:
         if isinstance(other, (int, float)):
