@@ -122,7 +122,7 @@ class ContinuousRV(RandomVariable):
         """
         return float(quad(self.pdf, -np.inf, x, full_output=True)[0])
 
-    # def plot(  # pylint: disable-all
+    # def plot(  # pylint: skip-file
     #     self,
     #     x: Optional[Iterable[Any]] = None,
     #     kind: str = "line",
