@@ -113,7 +113,7 @@ class RandomVariable:
         return self ** other
 
     def __eq__(self, other: object) -> Event:  # type: ignore
-        """ By default, the probabilty of equality is 0. """
+        """By default, the probabilty of equality is 0."""
         if isinstance(other, (int, float, RandomVariable)):
             return Event(0)
         return NotImplemented
