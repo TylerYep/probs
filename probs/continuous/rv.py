@@ -11,7 +11,7 @@ import numpy as np
 # from matplotlib.axes import Axes
 # from mpl_format.axes import AxesFormatter
 # from pandas import Series
-from scipy.integrate import quad
+from scipy.integrate import quad  # type: ignore[import]
 
 from probs.rv import RandomVariable
 

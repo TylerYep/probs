@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from scipy.stats import nbinom
+from scipy.stats import nbinom  # type: ignore[import]
 
 from probs.discrete.rv import DiscreteRV
 

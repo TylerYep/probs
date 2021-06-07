@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from scipy.stats import invgamma
+from scipy.stats import invgamma  # type: ignore[import]
 
 from probs.continuous.rv import ContinuousRV
 
