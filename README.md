@@ -1,6 +1,7 @@
 # probs
 
 [![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/release/python-370/)
+[![PyPI version](https://badge.fury.io/py/probs.svg)](https://badge.fury.io/py/probs)
 [![Build Status](https://github.com/TylerYep/probs/actions/workflows/test.yml/badge.svg)](https://github.com/TylerYep/probs/actions/workflows/test.yml)
 [![GitHub license](https://img.shields.io/github/license/TylerYep/probs)](https://github.com/TylerYep/probs/blob/main/LICENSE)
 [![codecov](https://codecov.io/gh/TylerYep/probs/branch/main/graph/badge.svg)](https://codecov.io/gh/TylerYep/probs)
