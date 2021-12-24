@@ -3,7 +3,7 @@ from __future__ import annotations
 # import math
 from dataclasses import dataclass
 
-# from typing import Any, Iterable, Optional, Sequence
+# from typing import Any, Iterable, Sequence
 from typing import cast, no_type_check
 
 import numpy as np
@@ -124,12 +124,12 @@ class ContinuousRV(RandomVariable):
 
     # def plot(  # pylint: skip-file
     #     self,
-    #     x: Optional[Iterable[Any]] = None,
+    #     x: Iterable[Any] | None = None,
     #     kind: str = "line",
     #     color: str = "C0",
     #     plot_type: str = "pdf",
     #     labels: Sequence[str] = ("mean", "median", "std"),
-    #     ax: Optional[Axes] = None,
+    #     ax: Axes | None = None,
     #     **kwargs: Any,
     # ) -> Axes:
     #     """

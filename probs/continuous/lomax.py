@@ -1,5 +1,6 @@
 import math
 from dataclasses import dataclass
+from typing import cast
 
 from probs.continuous.rv import ContinuousRV
 
@@ -48,7 +49,9 @@ class Lomax(ContinuousRV):
         raise RuntimeError("Undefined for α <= 1")
 
     def pdf(self, x: float) -> float:
-        return (self.alpha / self.lambda_) * (1 + x / self.lambda_) ** -(self.alpha + 1)
+        y = (self.alpha / self.lambda_) * (1 + x / self.lambda_) ** -(self.alpha + 1)
+        return cast(float, y)
 
     def cdf(self, x: float) -> float:
-        return 1 - (1 + x / self.lambda_) ** -self.alpha
+        y = 1 - (1 + x / self.lambda_) ** -self.alpha
+        return cast(float, y)

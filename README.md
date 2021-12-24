@@ -72,3 +72,4 @@ All issues and pull requests are much appreciated! To build the project:
   - super short init syntax
 
 - Figure out how to merge pmf and custom pmf functions.
+- Convert all floats to Decimal? For precision.
