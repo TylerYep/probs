@@ -38,7 +38,7 @@ class Exponential(ContinuousRV):
         return 1 / self.lambda_
 
     def variance(self) -> float:
-        return 1 / self.lambda_ ** 2
+        return 1 / self.lambda_**2
 
     def pdf(self, x: float) -> float:
         return self.lambda_ * math.exp(-self.lambda_ * x)

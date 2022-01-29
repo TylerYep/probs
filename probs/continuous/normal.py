@@ -22,7 +22,7 @@ class Normal(ContinuousRV):
     sigma: float = 1
 
     def __post_init__(self) -> None:
-        self._sigma_sq = self.sigma ** 2
+        self._sigma_sq = self.sigma**2
 
     def __str__(self) -> str:
         return f"Normal(μ={self.mu}, σ²={self._sigma_sq})"

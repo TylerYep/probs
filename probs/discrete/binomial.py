@@ -41,7 +41,7 @@ class Binomial(DiscreteRV):
 
     def pdf(self, x: float) -> float:
         k = int(x)
-        result = nCr(self.n, k) * (self.p ** k)
+        result = nCr(self.n, k) * (self.p**k)
         # Cannot raise 0 to the negative power
         if self.p == 1:
             return result

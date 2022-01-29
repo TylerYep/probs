@@ -35,4 +35,4 @@ class Poisson(DiscreteRV):
 
     def pdf(self, x: float) -> float:
         k = int(x)
-        return self.lambda_ ** k * math.exp(-self.lambda_) / math.factorial(k)
+        return self.lambda_**k * math.exp(-self.lambda_) / math.factorial(k)

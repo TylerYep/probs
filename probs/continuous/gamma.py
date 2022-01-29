@@ -45,7 +45,7 @@ class Gamma(ContinuousRV):
         return self.alpha / self.beta
 
     def variance(self) -> float:
-        return self.alpha / self.beta ** 2
+        return self.alpha / self.beta**2
 
     def pdf(self, x: float) -> float:
         # TODO this is incorrect - missing self.beta

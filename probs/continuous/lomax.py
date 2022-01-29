@@ -41,7 +41,7 @@ class Lomax(ContinuousRV):
 
     def variance(self) -> float:
         if self.alpha > 2:
-            return (self.alpha * self.lambda_ ** 2) / (
+            return (self.alpha * self.lambda_**2) / (
                 (self.alpha - 1) ** 2 * (self.alpha - 2)
             )
         if self.alpha > 1:

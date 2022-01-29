@@ -42,7 +42,7 @@ class InverseGamma(ContinuousRV):
         return self.beta / (self.alpha - 1)
 
     def variance(self) -> float:
-        return self.beta ** 2 / ((self.alpha - 1) ** 2 * (self.alpha - 2))
+        return self.beta**2 / ((self.alpha - 1) ** 2 * (self.alpha - 2))
 
     def pdf(self, x: float) -> float:
         # TODO: where is self.beta

@@ -73,7 +73,7 @@ class RandomVariable:
             result.pdf = lambda z: self.pdf(z * other)  # type: ignore
             result.cdf = lambda z: self.cdf(z * other)  # type: ignore
             result.expectation = lambda: self.expectation() * other  # type: ignore
-            result.variance = lambda: self.variance() * other ** 2  # type: ignore
+            result.variance = lambda: self.variance() * other**2  # type: ignore
             return result
         return NotImplemented
 
@@ -85,8 +85,8 @@ class RandomVariable:
     def __pow__(self, other: object) -> RandomVariable:
         if isinstance(other, (int, float)):
             result = type(self)()
-            result.pdf = lambda z: self.pdf(z ** other)  # type: ignore
-            result.cdf = lambda z: self.cdf(z ** other)  # type: ignore
+            result.pdf = lambda z: self.pdf(z**other)  # type: ignore
+            result.cdf = lambda z: self.cdf(z**other)  # type: ignore
             result.expectation = lambda: (_ for _ in ()).throw(  # type: ignore
                 # lambda: exp(log(self) * other).expectation()
                 NotImplementedError("Expectation cannot be implemented for division.")
@@ -110,7 +110,7 @@ class RandomVariable:
         return 1 / (self / other)
 
     def __rpow__(self, other: object) -> RandomVariable:
-        return self ** other
+        return self**other
 
     def __eq__(self, other: object) -> Event:  # type: ignore
         """By default, the probabilty of equality is 0."""

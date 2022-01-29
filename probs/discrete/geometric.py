@@ -30,7 +30,7 @@ class Geometric(DiscreteRV):
         return 1 / self.p
 
     def variance(self) -> float:
-        return (1 - self.p) / self.p ** 2
+        return (1 - self.p) / self.p**2
 
     def pdf(self, x: float) -> float:
         k = int(x)

@@ -36,7 +36,7 @@ class Laplace(ContinuousRV):
         return self.mu
 
     def variance(self) -> float:
-        return 2 * self.b ** 2
+        return 2 * self.b**2
 
     def pdf(self, x: float) -> float:
         return 1 / (2 * self.b) * math.exp(-abs(x - self.mu) / self.b)
