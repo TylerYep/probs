@@ -55,10 +55,10 @@ class RandomVariable:
     def __add__(self, other: object) -> RandomVariable:
         if isinstance(other, (int, float)):
             result = type(self)()
-            result.pdf = lambda z: self.pdf(z + other)  # type: ignore
-            result.cdf = lambda z: self.cdf(z + other)  # type: ignore
-            result.expectation = lambda: self.expectation() + other  # type: ignore
-            result.variance = self.variance  # type: ignore
+            result.pdf = lambda z: self.pdf(z + other)  # type: ignore[assignment, operator]  # noqa: E501
+            result.cdf = lambda z: self.cdf(z + other)  # type: ignore[assignment, operator]  # noqa: E501
+            result.expectation = lambda: self.expectation() + other  # type: ignore[assignment, operator]  # noqa: E501
+            result.variance = self.variance  # type: ignore[assignment]  # noqa: E501
             return result
         return NotImplemented
 
@@ -70,10 +70,10 @@ class RandomVariable:
     def __mul__(self, other: object) -> RandomVariable:
         if isinstance(other, (int, float)):
             result = type(self)()
-            result.pdf = lambda z: self.pdf(z * other)  # type: ignore
-            result.cdf = lambda z: self.cdf(z * other)  # type: ignore
-            result.expectation = lambda: self.expectation() * other  # type: ignore
-            result.variance = lambda: self.variance() * other**2  # type: ignore
+            result.pdf = lambda z: self.pdf(z * other)  # type: ignore[assignment, operator]  # noqa: E501
+            result.cdf = lambda z: self.cdf(z * other)  # type: ignore[assignment, operator]  # noqa: E501
+            result.expectation = lambda: self.expectation() * other  # type: ignore[assignment, operator]  # noqa: E501
+            result.variance = lambda: self.variance() * other**2  # type: ignore[assignment, no-any-return, operator]  # noqa: E501
             return result
         return NotImplemented
 
@@ -85,13 +85,13 @@ class RandomVariable:
     def __pow__(self, other: object) -> RandomVariable:
         if isinstance(other, (int, float)):
             result = type(self)()
-            result.pdf = lambda z: self.pdf(z**other)  # type: ignore
-            result.cdf = lambda z: self.cdf(z**other)  # type: ignore
-            result.expectation = lambda: (_ for _ in ()).throw(  # type: ignore
+            result.pdf = lambda z: self.pdf(z**other)  # type: ignore[assignment, operator]  # noqa: E501
+            result.cdf = lambda z: self.cdf(z**other)  # type: ignore[assignment, operator]  # noqa: E501
+            result.expectation = lambda: (_ for _ in ()).throw(  # type: ignore[assignment, no-any-return]  # noqa: E501
                 # lambda: exp(log(self) * other).expectation()
                 NotImplementedError("Expectation cannot be implemented for division.")
             )
-            result.variance = lambda: (_ for _ in ()).throw(  # type: ignore
+            result.variance = lambda: (_ for _ in ()).throw(  # type: ignore[assignment, no-any-return]  # noqa: E501
                 # lambda: exp(log(self) * other).variance()
                 NotImplementedError("Variance cannot be implemented for division.")
             )
@@ -112,13 +112,13 @@ class RandomVariable:
     def __rpow__(self, other: object) -> RandomVariable:
         return self**other
 
-    def __eq__(self, other: object) -> Event:  # type: ignore
+    def __eq__(self, other: object) -> Event:  # type: ignore[override]
         """By default, the probabilty of equality is 0."""
         if isinstance(other, (int, float, RandomVariable)):
             return Event(0)
         return NotImplemented
 
-    def __ne__(self, other: object) -> Event:  # type: ignore
+    def __ne__(self, other: object) -> Event:  # type: ignore[override]
         return Event(1 - (self == other).probabilty)
 
     def __lt__(self, other: object) -> Event:

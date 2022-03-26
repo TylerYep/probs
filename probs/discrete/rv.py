@@ -18,9 +18,9 @@ class DiscreteRV(RandomVariable):
         if isinstance(other, DiscreteRV):
             result = type(self)()
             result.pmf = self.combine_pmf(self.pmf, other.pmf, operator.add)
-            result.expectation = lambda: self.expectation() + other.expectation()  # type: ignore # noqa: E501
+            result.expectation = lambda: self.expectation() + other.expectation()  # type: ignore[assignment, attr-defined, no-any-return] # noqa: E501
             # Assumes Independence of X and Y, else add (+ 2 * Cov(X, Y)) term
-            result.variance = lambda: self.variance() + other.variance()  # type: ignore
+            result.variance = lambda: self.variance() + other.variance()  # type: ignore[assignment, attr-defined, no-any-return] # noqa: E501
             return result
         return cast(DiscreteRV, super().__add__(other))
 
@@ -28,8 +28,8 @@ class DiscreteRV(RandomVariable):
         if isinstance(other, DiscreteRV):
             result = type(self)()
             result.pmf = self.combine_pmf(self.pmf, other.pmf, operator.sub)
-            result.expectation = lambda: self.expectation() - other.expectation()  # type: ignore # noqa: E501
-            result.variance = lambda: self.variance() - other.variance()  # type: ignore
+            result.expectation = lambda: self.expectation() - other.expectation()  # type: ignore[assignment, attr-defined, no-any-return] # noqa: E501
+            result.variance = lambda: self.variance() - other.variance()  # type: ignore[assignment, attr-defined, no-any-return] # noqa: E501
             return result
         return cast(DiscreteRV, super().__sub__(other))
 
@@ -38,11 +38,11 @@ class DiscreteRV(RandomVariable):
             result = type(self)()
             result.pmf = self.combine_pmf(self.pmf, other.pmf, operator.mul)
             # Assumes Independence of X and Y
-            result.expectation = lambda: self.expectation() * other.expectation()  # type: ignore # noqa: E501
-            result.variance = (  # type: ignore
-                lambda: (self.variance() ** 2 + self.expectation() ** 2)  # type: ignore
-                + (other.variance() ** 2 + other.expectation() ** 2)  # type: ignore
-                - (self.expectation() * other.expectation()) ** 2  # type: ignore
+            result.expectation = lambda: self.expectation() * other.expectation()  # type: ignore[assignment, attr-defined, no-any-return] # noqa: E501
+            result.variance = (  # type: ignore[assignment]
+                lambda: (self.variance() ** 2 + self.expectation() ** 2)  # type: ignore[no-any-return] # noqa: E501
+                + (other.variance() ** 2 + other.expectation() ** 2)  # type: ignore[attr-defined] # noqa: E501
+                - (self.expectation() * other.expectation()) ** 2  # type: ignore[attr-defined] # noqa: E501
             )
             return result
         return cast(DiscreteRV, super().__mul__(other))
@@ -51,16 +51,16 @@ class DiscreteRV(RandomVariable):
         if isinstance(other, DiscreteRV):
             result = type(self)()
             result.pmf = self.combine_pmf(self.pmf, other.pmf, operator.truediv)
-            result.expectation = lambda: (_ for _ in ()).throw(  # type: ignore
+            result.expectation = lambda: (_ for _ in ()).throw(  # type: ignore[assignment, no-any-return] # noqa: E501
                 NotImplementedError("Expectation cannot be implemented for division.")
             )
-            result.variance = lambda: (_ for _ in ()).throw(  # type: ignore
+            result.variance = lambda: (_ for _ in ()).throw(  # type: ignore[assignment, no-any-return] # noqa: E501
                 NotImplementedError("Variance cannot be implemented for division.")
             )
             return result
         return cast(DiscreteRV, super().__truediv__(other))
 
-    def __eq__(self, other: object) -> Event:  # type: ignore
+    def __eq__(self, other: object) -> Event:  # type: ignore[override]
         """
         Discrete Variables can be compare using equality operators to form Events,
         e.g. P(A == B) or P(A == 1).
