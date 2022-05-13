@@ -29,7 +29,7 @@ class Lomax(ContinuousRV):
         return f"Lomax(λ={self.lambda_}, α={self.alpha})"
 
     def median(self) -> float:
-        return self.lambda_ * (2 ** (1 / self.alpha) - 1)
+        return self.lambda_ * float(2 ** (1 / self.alpha) - 1)
 
     def mode(self) -> float:
         return 0
