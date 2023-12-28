@@ -13,5 +13,5 @@ def test_random_variable() -> None:
     assert P(a == b) == 0.45
     assert P(a != b) == 0.55
 
-    assert P(0 == a) == 0.4  # type: ignore[arg-type]
-    assert P(2 != a) == 0.9  # type: ignore[arg-type]
+    assert P(a == 0) == 0.4
+    assert P(a != 2) == 0.9

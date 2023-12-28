@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from scipy.stats import betabinom  # type: ignore[import]
+from scipy.stats import betabinom  # type: ignore[import-untyped]
 
 from probs.discrete.rv import DiscreteRV
 

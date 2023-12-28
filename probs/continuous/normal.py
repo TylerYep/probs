@@ -34,7 +34,7 @@ class Normal(ContinuousRV):
             )
         if isinstance(other, RandomVariable):
             return cast(RandomVariable, super().__add__(other))
-        if isinstance(other, (int, float)):
+        if isinstance(other, int | float):
             return Normal(self.mu + other, self.sigma)
         return NotImplemented
 
@@ -45,17 +45,17 @@ class Normal(ContinuousRV):
             )
         if isinstance(other, RandomVariable):
             return cast(RandomVariable, super().__sub__(other))
-        if isinstance(other, (int, float)):
+        if isinstance(other, int | float):
             return Normal(self.mu - other, self.sigma)
         return NotImplemented
 
     def __mul__(self, other: object) -> RandomVariable:
-        if isinstance(other, (int, float)):
+        if isinstance(other, int | float):
             return Normal(self.mu * other, (self.sigma * other) ** 2)
         return cast(RandomVariable, super().__mul__(other))
 
     def __truediv__(self, other: object) -> RandomVariable:
-        if isinstance(other, (int, float)):
+        if isinstance(other, int | float):
             return self * (1 / other)
         return cast(RandomVariable, super().__truediv__(other))
 

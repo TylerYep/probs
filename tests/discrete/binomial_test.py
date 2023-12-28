@@ -30,7 +30,7 @@ class TestBinomial:
 
         assert d.expectation() == 0
         assert d.variance() == 0
-        # TODO
+        # TODO: fix
         assert d.pmf == {}
         # assert P(d == 2) == 1 / 36
         # assert P(d == 8) == 5 / 36

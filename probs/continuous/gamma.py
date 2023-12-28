@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from scipy.stats import gamma  # type: ignore[import]
+from scipy.stats import gamma  # type: ignore[import-untyped]
 
 from probs.continuous.rv import ContinuousRV
 
@@ -48,9 +48,9 @@ class Gamma(ContinuousRV):
         return self.alpha / self.beta**2
 
     def pdf(self, x: float) -> float:
-        # TODO this is incorrect - missing self.beta
+        # TODO: this is incorrect - missing self.beta
         return float(gamma.pdf(x, self.alpha))
 
     def cdf(self, x: float) -> float:
-        # TODO this is incorrect - missing self.beta
+        # TODO: this is incorrect - missing self.beta
         return float(gamma.cdf(x, self.alpha))

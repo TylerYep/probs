@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from scipy.stats import beta  # type: ignore[import]
+from scipy.stats import beta  # type: ignore[import-untyped]
 
 from probs.continuous.rv import ContinuousRV
 
@@ -41,7 +41,7 @@ class Beta(ContinuousRV):
             return 0
         if self.alpha > 1 or self.beta <= 1:
             return 1
-        if self.alpha == 1 and self.beta == 1:
+        if self.alpha == self.beta == 1:
             # Any value between (0, 1)
             return 0.5
         if self.alpha < 1 and self.beta < 1:

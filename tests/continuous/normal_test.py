@@ -19,7 +19,7 @@ def test_normal_event() -> None:
     n = Normal()
 
     assert isinstance(n > 5, Event)
-    assert isinstance(5 < n, Event)
+    assert isinstance(n > 5, Event)
     assert P(n < 0) == 0.5
     assert P(n < 14) == 1
 

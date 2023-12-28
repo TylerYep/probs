@@ -1,7 +1,7 @@
 import math
 from dataclasses import dataclass
 
-from scipy.stats import t  # type: ignore[import]
+from scipy.stats import t  # type: ignore[import-untyped]
 
 from probs.continuous.rv import ContinuousRV
 

@@ -11,7 +11,7 @@ import numpy as np
 # from matplotlib.axes import Axes
 # from mpl_format.axes import AxesFormatter
 # from pandas import Series
-from scipy.integrate import quad  # type: ignore[import]
+from scipy.integrate import quad  # type: ignore[import-untyped]
 
 from probs.rv import RandomVariable
 
@@ -122,8 +122,7 @@ class ContinuousRV(RandomVariable):
         """
         return float(quad(self.pdf, -np.inf, x, full_output=True)[0])
 
-    # def plot(  # pylint: skip-file
-    #     self,
+    # def plot(      #     self,
     #     x: Iterable[Any] | None = None,
     #     kind: str = "line",
     #     color: str = "C0",

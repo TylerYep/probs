@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 import operator
+from collections.abc import Callable
 from dataclasses import dataclass, field
-from typing import Any, Callable, TypeVar, cast
+from typing import Any, TypeVar, cast
 
 from probs.floats import ApproxFloat
 from probs.rv import Event, RandomVariable
@@ -18,9 +19,9 @@ class DiscreteRV(RandomVariable):
         if isinstance(other, DiscreteRV):
             result = type(self)()
             result.pmf = self.combine_pmf(self.pmf, other.pmf, operator.add)
-            result.expectation = lambda: self.expectation() + other.expectation()  # type: ignore[assignment, attr-defined, no-any-return] # noqa: E501
+            result.expectation = lambda: self.expectation() + other.expectation()  # type: ignore[attr-defined,method-assign,unused-ignore]
             # Assumes Independence of X and Y, else add (+ 2 * Cov(X, Y)) term
-            result.variance = lambda: self.variance() + other.variance()  # type: ignore[assignment, attr-defined, no-any-return] # noqa: E501
+            result.variance = lambda: self.variance() + other.variance()  # type: ignore[attr-defined,method-assign,unused-ignore]
             return result
         return cast(DiscreteRV, super().__add__(other))
 
@@ -28,8 +29,8 @@ class DiscreteRV(RandomVariable):
         if isinstance(other, DiscreteRV):
             result = type(self)()
             result.pmf = self.combine_pmf(self.pmf, other.pmf, operator.sub)
-            result.expectation = lambda: self.expectation() - other.expectation()  # type: ignore[assignment, attr-defined, no-any-return] # noqa: E501
-            result.variance = lambda: self.variance() - other.variance()  # type: ignore[assignment, attr-defined, no-any-return] # noqa: E501
+            result.expectation = lambda: self.expectation() - other.expectation()  # type: ignore[attr-defined,method-assign,unused-ignore]
+            result.variance = lambda: self.variance() - other.variance()  # type: ignore[attr-defined,method-assign,unused-ignore]
             return result
         return cast(DiscreteRV, super().__sub__(other))
 
@@ -38,11 +39,11 @@ class DiscreteRV(RandomVariable):
             result = type(self)()
             result.pmf = self.combine_pmf(self.pmf, other.pmf, operator.mul)
             # Assumes Independence of X and Y
-            result.expectation = lambda: self.expectation() * other.expectation()  # type: ignore[assignment, attr-defined, no-any-return] # noqa: E501
-            result.variance = (  # type: ignore[assignment]
-                lambda: (self.variance() ** 2 + self.expectation() ** 2)  # type: ignore[no-any-return] # noqa: E501
-                + (other.variance() ** 2 + other.expectation() ** 2)  # type: ignore[attr-defined] # noqa: E501
-                - (self.expectation() * other.expectation()) ** 2  # type: ignore[attr-defined] # noqa: E501
+            result.expectation = lambda: self.expectation() * other.expectation()  # type: ignore[attr-defined,method-assign,unused-ignore]
+            result.variance = (  # type: ignore[method-assign]
+                lambda: (self.variance() ** 2 + self.expectation() ** 2)
+                + (other.variance() ** 2 + other.expectation() ** 2)
+                - (self.expectation() * other.expectation()) ** 2
             )
             return result
         return cast(DiscreteRV, super().__mul__(other))
@@ -51,10 +52,10 @@ class DiscreteRV(RandomVariable):
         if isinstance(other, DiscreteRV):
             result = type(self)()
             result.pmf = self.combine_pmf(self.pmf, other.pmf, operator.truediv)
-            result.expectation = lambda: (_ for _ in ()).throw(  # type: ignore[assignment, no-any-return] # noqa: E501
+            result.expectation = lambda: (_ for _ in ()).throw(  # type: ignore[method-assign]
                 NotImplementedError("Expectation cannot be implemented for division.")
             )
-            result.variance = lambda: (_ for _ in ()).throw(  # type: ignore[assignment, no-any-return] # noqa: E501
+            result.variance = lambda: (_ for _ in ()).throw(  # type: ignore[method-assign]
                 NotImplementedError("Variance cannot be implemented for division.")
             )
             return result
@@ -65,7 +66,7 @@ class DiscreteRV(RandomVariable):
         Discrete Variables can be compare using equality operators to form Events,
         e.g. P(A == B) or P(A == 1).
         """
-        if isinstance(other, (int, float)):
+        if isinstance(other, int | float):
             return Event(self.pdf(other))
         if isinstance(other, RandomVariable):
             return Event((self - other).pdf(0))
