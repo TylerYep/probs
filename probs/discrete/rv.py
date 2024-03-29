@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 import operator
-from collections.abc import Callable
 from dataclasses import dataclass, field
-from typing import Any, TypeVar, cast
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from probs.floats import ApproxFloat
 from probs.rv import Event, RandomVariable
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 T = TypeVar("T")
 
@@ -108,7 +110,7 @@ class DiscreteRV(RandomVariable):
         because this way allows us to access the pmf's keys internally without
         accidentally adding empty values.
         """
-        return self.pmf[x] if x in self.pmf else 0
+        return self.pmf.get(x, 0)
 
     def cdf(self, x: float) -> float:
         """

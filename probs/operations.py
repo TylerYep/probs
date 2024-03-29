@@ -1,6 +1,9 @@
 from __future__ import annotations
 
-from probs.rv import Event, RandomVariable
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from probs.rv import Event, RandomVariable
 
 SYNTAX_WARNING = (
     "The {} syntax is not supported because it adds unnecessary "
