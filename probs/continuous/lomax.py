@@ -50,8 +50,8 @@ class Lomax(ContinuousRV):
 
     def pdf(self, x: float) -> float:
         y = (self.alpha / self.lambda_) * (1 + x / self.lambda_) ** -(self.alpha + 1)
-        return cast(float, y)
+        return cast("float", y)
 
     def cdf(self, x: float) -> float:
         y = 1 - (1 + x / self.lambda_) ** -self.alpha
-        return cast(float, y)
+        return cast("float", y)

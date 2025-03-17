@@ -40,7 +40,7 @@ class ContinuousRV(RandomVariable):
             result.variance = lambda: self.variance() + other_var.variance()
             result.median = lambda: self.median() + other_var.median()
             return result
-        return cast(ContinuousRV, super().__add__(other))
+        return cast("ContinuousRV", super().__add__(other))
 
     @no_type_check
     def __sub__(self, other: object) -> ContinuousRV:
@@ -57,7 +57,7 @@ class ContinuousRV(RandomVariable):
             result.variance = lambda: self.variance() + other.variance()
             result.median = lambda: self.median() - other.median()
             return result
-        return cast(ContinuousRV, super().__sub__(other))
+        return cast("ContinuousRV", super().__sub__(other))
 
     @no_type_check
     def __mul__(self, other: object) -> ContinuousRV:
@@ -78,7 +78,7 @@ class ContinuousRV(RandomVariable):
             )
             result.median = lambda: self.median() * other.median()
             return result
-        return cast(ContinuousRV, super().__mul__(other))
+        return cast("ContinuousRV", super().__mul__(other))
 
     @no_type_check
     def __truediv__(self, other: object) -> ContinuousRV:
@@ -98,7 +98,7 @@ class ContinuousRV(RandomVariable):
             )
             result.median = lambda: self.median() / other.median()
             return result
-        return cast(ContinuousRV, super().__truediv__(other))
+        return cast("ContinuousRV", super().__truediv__(other))
 
     def median(self) -> float:
         raise NotImplementedError
