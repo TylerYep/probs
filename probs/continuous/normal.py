@@ -33,7 +33,7 @@ class Normal(ContinuousRV):
                 self.mu + other.mu, math.sqrt(self._sigma_sq + other._sigma_sq)
             )
         if isinstance(other, RandomVariable):
-            return cast(RandomVariable, super().__add__(other))
+            return cast("RandomVariable", super().__add__(other))
         if isinstance(other, int | float):
             return Normal(self.mu + other, self.sigma)
         return NotImplemented
@@ -44,7 +44,7 @@ class Normal(ContinuousRV):
                 self.mu - other.mu, math.sqrt(self._sigma_sq + other._sigma_sq)
             )
         if isinstance(other, RandomVariable):
-            return cast(RandomVariable, super().__sub__(other))
+            return cast("RandomVariable", super().__sub__(other))
         if isinstance(other, int | float):
             return Normal(self.mu - other, self.sigma)
         return NotImplemented
@@ -52,12 +52,12 @@ class Normal(ContinuousRV):
     def __mul__(self, other: object) -> RandomVariable:
         if isinstance(other, int | float):
             return Normal(self.mu * other, (self.sigma * other) ** 2)
-        return cast(RandomVariable, super().__mul__(other))
+        return cast("RandomVariable", super().__mul__(other))
 
     def __truediv__(self, other: object) -> RandomVariable:
         if isinstance(other, int | float):
             return self * (1 / other)
-        return cast(RandomVariable, super().__truediv__(other))
+        return cast("RandomVariable", super().__truediv__(other))
 
     def median(self) -> float:
         return self.mu

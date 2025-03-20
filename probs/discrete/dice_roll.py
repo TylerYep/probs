@@ -10,7 +10,7 @@ class DiceRoll(DiscreteRV):
     def __post_init__(self) -> None:
         if self.sides <= 0:
             raise ValueError("Dice must have a positive number of sides.")
-        self.pmf = {i: 1 / self.sides for i in range(1, self.sides + 1)}
+        self.pmf = dict.fromkeys(range(1, self.sides + 1), 1 / self.sides)
 
     def median(self) -> float:
         return self.sides // 2

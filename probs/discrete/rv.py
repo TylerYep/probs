@@ -25,7 +25,7 @@ class DiscreteRV(RandomVariable):
             # Assumes Independence of X and Y, else add (+ 2 * Cov(X, Y)) term
             result.variance = lambda: self.variance() + other.variance()  # type: ignore[attr-defined,method-assign,unused-ignore]
             return result
-        return cast(DiscreteRV, super().__add__(other))
+        return cast("DiscreteRV", super().__add__(other))
 
     def __sub__(self, other: object) -> DiscreteRV:
         if isinstance(other, DiscreteRV):
@@ -34,7 +34,7 @@ class DiscreteRV(RandomVariable):
             result.expectation = lambda: self.expectation() - other.expectation()  # type: ignore[attr-defined,method-assign,unused-ignore]
             result.variance = lambda: self.variance() - other.variance()  # type: ignore[attr-defined,method-assign,unused-ignore]
             return result
-        return cast(DiscreteRV, super().__sub__(other))
+        return cast("DiscreteRV", super().__sub__(other))
 
     def __mul__(self, other: object) -> DiscreteRV:
         if isinstance(other, DiscreteRV):
@@ -48,7 +48,7 @@ class DiscreteRV(RandomVariable):
                 - (self.expectation() * other.expectation()) ** 2
             )
             return result
-        return cast(DiscreteRV, super().__mul__(other))
+        return cast("DiscreteRV", super().__mul__(other))
 
     def __truediv__(self, other: object) -> DiscreteRV:
         if isinstance(other, DiscreteRV):
@@ -61,7 +61,7 @@ class DiscreteRV(RandomVariable):
                 NotImplementedError("Variance cannot be implemented for division.")
             )
             return result
-        return cast(DiscreteRV, super().__truediv__(other))
+        return cast("DiscreteRV", super().__truediv__(other))
 
     def __eq__(self, other: object) -> Event:  # type: ignore[override]
         """
