@@ -74,6 +74,9 @@ class DiscreteRV(RandomVariable):
             return Event((self - other).pdf(0))
         return NotImplemented
 
+    def __hash__(self) -> int:
+        return hash(self.pmf)
+
     @staticmethod
     def combine_pmf(
         first: dict[T, float], second: dict[T, float], op: Callable[[T, T], T]

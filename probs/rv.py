@@ -118,6 +118,9 @@ class RandomVariable:
             return Event(0)
         return NotImplemented
 
+    def __hash__(self) -> int:
+        return 0
+
     def __ne__(self, other: object) -> Event:  # type: ignore[override]
         return Event(1 - (self == other).probabilty)
 
