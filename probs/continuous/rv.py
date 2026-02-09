@@ -71,8 +71,8 @@ class ContinuousRV(RandomVariable):
             )[0]
             # Assumes Independence of X and Y
             result.expectation = lambda: self.expectation() * other.expectation()
-            result.variance = (
-                lambda: (self.variance() ** 2 + self.expectation() ** 2)
+            result.variance = lambda: (
+                (self.variance() ** 2 + self.expectation() ** 2)
                 + (other.variance() ** 2 + other.expectation() ** 2)
                 - (self.expectation() * other.expectation()) ** 2
             )
