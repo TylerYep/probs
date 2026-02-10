@@ -43,9 +43,11 @@ class DiscreteRV(RandomVariable):
             # Assumes Independence of X and Y
             result.expectation = lambda: self.expectation() * other.expectation()  # type: ignore[attr-defined,method-assign,unused-ignore]
             result.variance = (  # type: ignore[method-assign]
-                lambda: (self.variance() ** 2 + self.expectation() ** 2)
-                + (other.variance() ** 2 + other.expectation() ** 2)
-                - (self.expectation() * other.expectation()) ** 2
+                lambda: (
+                    (self.variance() ** 2 + self.expectation() ** 2)
+                    + (other.variance() ** 2 + other.expectation() ** 2)
+                    - (self.expectation() * other.expectation()) ** 2
+                )
             )
             return result
         return cast("DiscreteRV", super().__mul__(other))
